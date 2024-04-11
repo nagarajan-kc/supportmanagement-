@@ -34,10 +34,9 @@ export default{
   methods:{
     login(){
 
-      if(this.input.username === 'admin' && this.input.password === 'abc'){
-        this.$router.push('/welcome');
-        // console.log(this.input.username,this.input. password)
-        // alert(this.input.username,this.input.password)
+      if(this.input.username === 'admin@gmail.com' && this.input.password === 'Admin123@'){
+        this.$router.push('/AdminPageDashboard');
+    
       }
       else{
         alert('Invalid username or password');

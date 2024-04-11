@@ -3,8 +3,6 @@
   <HelloWorld msg="Support Management System"/>
   <br>
   <br>
-  <LoginPage/>
-  <!-- <router-link to="/request">Request Page</router-link> -->
   <div>
     <router-view></router-view>
   </div>
@@ -12,14 +10,11 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue';
-import LoginPage from './components/LoginPage.vue';
-
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
-    LoginPage
+    HelloWorld
   }
 }
 </script>
