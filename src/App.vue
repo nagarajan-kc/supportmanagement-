@@ -1,15 +1,25 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  
+  <HelloWorld msg="Support Management System"/>
+  <br>
+  <br>
+  <LoginPage/>
+  <!-- <router-link to="/request">Request Page</router-link> -->
+  <div>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from './components/HelloWorld.vue';
+import LoginPage from './components/LoginPage.vue';
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HelloWorld,
+    LoginPage
   }
 }
 </script>
@@ -23,4 +33,11 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+#rp {
+    border: dashed black 1px;
+    padding: 20px;
+    margin: 10px;
+    display: inline-block;
+  }
 </style>
