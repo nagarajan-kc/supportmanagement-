@@ -12,7 +12,7 @@
         </div>
         <br>
           <br>
-          <button class="btn btn-outline-dark" type="submit" v-on:click.prevent= "login()">
+          <button class="btn btn-outline-dark" type="submit" v-on:click= "login()">
             Login
           </button>
         </form>

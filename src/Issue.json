@@ -1,0 +1,26 @@
+[
+    {
+      "id": 1,
+      "Issue": "Login issue",
+      "Description":"Login button is not displaying",
+      "Portal":"TN"
+    },
+    {
+      "id": 2,
+      "Issue": " EMD ",
+      "Description":" EMD not refunded ",
+      "Portal":"UP"
+    },
+    {
+      "id":3 ,
+      "Issue": "BOQ",
+      "Description":"BOQ Comparative",
+      "Portal":"DL"
+    },
+    {
+      "id": 4,
+      "Issue": "GTE",
+      "Description":" GTE enable for the organisation",
+      "Portal":"GOA"
+    }
+  ]

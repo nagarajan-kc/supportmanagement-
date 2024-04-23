@@ -1,0 +1,68 @@
+<template>
+ <v-table>
+<thead>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>MobileNumber</th>
+        <th>Portal</th>
+        <th>Role</th>
+</thead>
+<tbody v-for="(agents,index) in agent" v-bind:key="index">
+    <tr>
+        <td >{{ agents.support_user_id }}</td>
+        <td >{{ agents.name }}</td>
+        <td >{{ agents.email }}</td>
+        <td >{{ agents.mobile_number }}</td>
+        <td >{{ agents.portal_name }}</td>
+       <td >{{ agents.role_name }}</td>
+    </tr>
+    
+</tbody>
+
+</v-table>
+<v-col>
+        <v-btn class="btn btn-outline-dark"  v-on:click.prevent= "back()" > Back </v-btn>
+      </v-col>
+<!-- <button class="btn btn-outline-dark" type="back" v-on:click.= "back()">Back</button>  -->
+</template>
+
+<script>
+import axios from 'axios'
+
+export default{
+    name: 'ManageAgent',
+    data(){
+        return{
+            agent:[],
+        }
+    },
+
+    methods: {
+    fetchData() {
+      axios.get('https://demoetenders.tn.nic.in/supportdora/getSupportUserDetails', 
+      { 
+        headers:{
+        "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+        "Content-Type": 'application/json'
+      },
+     })
+        .then(response => {
+          this.agent = response.data
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log('Error fetching data:', error);
+        });
+    }
+  }, 
+  created(){
+    this.fetchData()
+  },
+
+  back(){
+        this.$router.push('/AdminPageDashboard')
+    }
+
+}
+</script>
