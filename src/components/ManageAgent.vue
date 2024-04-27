@@ -22,7 +22,7 @@
 
 </v-table>
 <v-col>
-        <v-btn class="btn btn-outline-dark"  v-on:click.prevent= "back()" > Back </v-btn>
+        <v-btn class="btn btn-outline-dark"  v-on:click.prevent= "backPage()" > Back </v-btn>
       </v-col>
 <!-- <button class="btn btn-outline-dark" type="back" v-on:click.= "back()">Back</button>  -->
 </template>
@@ -40,7 +40,7 @@ export default{
 
     methods: {
     fetchData() {
-      axios.get('https://demoetenders.tn.nic.in/supportdora/getSupportUserDetails', 
+      axios.get('https://demoetenders.tn.nic.in/supportdora/support-users', 
       { 
         headers:{
         "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
@@ -54,13 +54,16 @@ export default{
         .catch(error => {
           console.log('Error fetching data:', error);
         });
+    },
+    backPage(){
+        this.$router.push('/AdminPageDashboard')
     }
   }, 
   created(){
     this.fetchData()
   },
 
-  back(){
+  backPage(){
         this.$router.push('/AdminPageDashboard')
     }
 
