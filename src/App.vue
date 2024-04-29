@@ -1,8 +1,7 @@
 <template>
   
   <HelloWorld msg="Support Management System"/>
-  <br>
-  <br>
+  <TitleSection/>
   <div>
     <router-view></router-view>
   </div>
@@ -10,11 +9,13 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue';
+import TitleSection from './components/TitleSection.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HelloWorld,
+    TitleSection
   }
 }
 </script>
@@ -29,10 +30,12 @@ export default {
   margin-top: 60px;
 }
 
-#rp {
-    border: dashed black 1px;
-    padding: 20px;
-    margin: 10px;
-    display: inline-block;
-  }
+input,select{
+  border: solid 1px rgb(5, 5, 5) !important;
+}
+
+.v-btn{
+  text-transform: none !important;
+}
+
 </style>

@@ -12,9 +12,9 @@
         </div>
         <br>
           <br>
-          <button class="btn btn-outline-dark" type="submit" v-on:click= "login()">
+          <v-btn class="btn btn-outline-dark" type="submit" v-on:click= "login()">
             Login
-          </button>
+          </v-btn>
         </form>
 </template>
 
@@ -47,6 +47,6 @@ export default{
 
 </script>
 
-<style >
+<style scoped>
 
 </style>

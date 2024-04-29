@@ -1,42 +1,13 @@
 <template>
-<div>
-    <h3>Welcome Admin</h3>
-    <v-col>
-        <input type='text' v-model="search" placeholder='Search ' />
+    <div class="backcolor">
+<div >
+    <h3 class="admin">Welcome Admin</h3>
+    <v-col >
+        <input type='text' v-model="search" placeholder='Search ' class="search"/>
     </v-col>
-    <!-- <v-table>
-<thead>
-        <th>id</th>
-        <th>Issue</th>
-        <th>Description</th>
-        <th>Portal Name</th>
-
-</thead>
-<tbody v-for="user in users" v-bind:key="user">
-    <tr>
-        <td >{{ user.id }}</td>
-        <td >{{ user.Issue }}</td>
-        <td >{{ user.Description }}</td>
-        <td >{{ user.Portal }}</td>
-        <td ><v-btn class="btn btn-outline-dark"  v-on:click.prevent= "assignTask(user.id)" > Assign </v-btn></td>
-    </tr>
-
-</tbody>
-</v-table> -->
-</div>
-<!-- {{ issue }} -->
-<tbody v-for="issues in issue" v-bind:key="issues" >
-    <tr>
-        <td >Description: {{ issues.description }}</td>
-
-    </tr>
-
-</tbody>
-<v-container>
+    <v-container>
     <v-row>
-        <v-col>
-            <v-btn class="btn btn-outline-dark" v-on:click.prevent="logout()"> Logout </v-btn>
-        </v-col>
+     
         <v-col>
             <v-btn class="btn btn-outline-dark" v-on:click.prevent="UserCreate()"> Create </v-btn>
         </v-col>
@@ -49,12 +20,40 @@
         <v-col>
             <v-btn class="btn btn-outline-dark" v-on:click.prevent="supportusers()"> SupportUsers </v-btn>
         </v-col>
-        <!-- <v-col>
-            <v-btn class="btn btn-outline-dark" v-on:click.prevent="issuelist()"> fetchData </v-btn>
-        </v-col> -->
+        
     </v-row>
 
 </v-container>
+<br>
+    <v-table class="table">
+<thead>
+        <th>id</th>
+        <th>Issue</th>
+        <th>Description</th>
+        <th>Portal Name</th>
+
+</thead>
+<tbody v-for="issues in issue" v-bind:key="issues">
+    <tr>
+        <td >{{ issues.request_id }}</td>
+        <td v-align="center" justify="center">{{ issues.subject }}</td>
+        <td >{{ issues.description }}</td>
+        <td >{{ issues.Portal }}</td>
+        <!-- <td ><v-btn class="btn btn-outline-dark"  v-on:click.prevent= "assignTask(user.id)" > Assign </v-btn></td> -->
+    </tr>
+
+</tbody>
+</v-table>
+</div>
+<!-- {{ issue }} -->
+<!-- <tbody v-for="issues in issue" v-bind:key="issues" > -->
+    <!-- <tr> -->
+        <!-- <td >Description: {{ issues.description }}</td> -->
+
+    <!-- </tr> -->
+
+<!-- </tbody> -->
+</div>
 </template>
 
 <script>
@@ -111,7 +110,7 @@ export default {
                 })
                 .then(response => {
                     this.issue = response.data
-                    console.log(response.data);
+                    // console.log(response.data);
                 })
                 .catch(error => {
                     console.log('Error fetching data:', error);
@@ -123,3 +122,13 @@ export default {
     },
 }
 </script>
+<style scoped >
+.backcolor{
+    background-color:rgb(170, 48, 4);
+}
+
+.search{
+    background-color:rgb(212, 201, 201);
+}
+
+</style>

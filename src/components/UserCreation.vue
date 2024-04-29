@@ -1,26 +1,28 @@
 <template>
 <h2>Agent Creation:</h2>
+<v-container>
+    <v-row v-align="center" justify="center">
 <form name="usercreate" enctype="multipart/form-data">
-    <div class="mb-3">
+    <div class="data">
         <label>Name: </label>
         <input type="text" v-model="formData.name" />
     </div>
-    <div>
+    <div class="data">
         <label>Email Id: </label>
         <input type="text" v-model="formData.email" />
     </div>
-    <div class="mb-3">
+    <div class="data">
         <label>Mobile No: </label>
         <input type="Number" v-model="formData.mobileNo" />
     </div>
-    <div>
+    <div class="data">
         <label>Portal Name: </label>
         <!-- <input type="text" id="Portal" v-model="input.Portal" /> -->
         <select v-model="formData.portal">
             <option v-for="portals in portallist" v-bind:key="portals" :value="portals.id ">{{ portals.name}}</option>
         </select>
     </div>
-    <div>
+    <div class="data">
         <label>Role: </label>
         <!-- <input type="text" id="Role" v-model="input.Role" /> -->
         <select v-model="formData.role">
@@ -28,22 +30,25 @@
         </select>
     </div>
 
-    <div>
+    <div class="data">
         <label for="file">Upload File:</label>
         <input type="file" id="file" ref="file" @change="handleFileChange" required>
     </div>
-
-    <v-container>
-        <v-row>
-            <v-col>
+<!-- </v-row> -->
+    
+        <v-row v-align="center" justify="center">
+            <v-col cols="auto">
                 <v-btn class="btn btn-outline-dark" v-on:click="back()"> Back </v-btn>
             </v-col>
-            <v-col>
+            <v-col cols="auto">
                 <v-btn class="btn btn-outline-dark" v-on:click="submit()"> Save </v-btn>
             </v-col>
+
         </v-row>
-    </v-container>
+    
 </form>
+</v-row>
+</v-container>
 </template>
 
 <script>
@@ -82,7 +87,7 @@ export default {
             //     saveData.append('roleId', this.formData.role),
             //     saveData.append('files', this.formData.file),
             this.saveData = {
-                name: this.formData.name,
+                name: this.formData.name, 
                 email: this.formData.email,
                 mobileNo: this.formData.mobileNo,
                 portalId: this.formData.portal,
@@ -136,3 +141,15 @@ export default {
 
 }
 </script>
+
+<style scoped>
+form {
+  text-align: left;
+}
+.data {
+  margin: 5px;
+  display: grid;
+  font-weight: bold;
+  /* width: 29rem; */
+}
+</style>
