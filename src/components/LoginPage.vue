@@ -38,6 +38,9 @@ export default{
         this.$router.push('/AdminPageDashboard');
     
       }
+      else if(this.input.username === 'nagarajaneproc@gmail.com' && this.input.password === 'Naga123@'){
+        this.$router.push('/Agent');
+      }
       else{
         alert('Invalid username or password');
       }

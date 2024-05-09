@@ -1,77 +1,124 @@
 <template>
-    
-    <h1>Task Manager - Admin Dashboard</h1>
-    <v-container  >
-      <div v-for="user in users" v-bind:key="user">
-      <v-row v-if="user.id == requestId">
-        <v-col>
-          Id: {{ user.id }}
-        </v-col>
-      </v-row>
-      <v-row v-if="user.id == requestId">
-        <v-col>
-          Issue: {{ user.Issue }}
-        </v-col>
-      </v-row><v-row v-if="user.id == requestId">
-        <v-col>
-          Description: {{ user.Description }}
-        </v-col>
-      </v-row>
-      <v-row v-if="user.id == requestId">
-        <v-col>
-          Portal: {{ user.Portal }}
-        </v-col>
-      </v-row>
-    </div>
-    </v-container>
-    <form @submit.prevent="sendTask">
-      <label for="agent">Send To:</label>
-      <select id="agent" v-model="selectedUser">
-        <option v-for="agent in agents" :key="agent.id" :value="agent.name">{{ agent.name }}</option>
-        
-      </select>
-      <br> 
-      <button type="submit">Send Task</button>
-    </form>
+<TitleSection />
+<h1>Task Manager - Admin Dashboard</h1>
+<v-container>
+
+    <!-- <div v-for="issues in issue" v-bind:key="issues" style=" text-wrap:calc(10)"> -->
+    <!-- <tr> -->
+    <p><label class="labeltext">Requestid:</label>{{ issue.request_id }}</p>
+    <p><label class="labeltext">Issue: </label> {{ issue.subject }}</p>
+    <p><label class="labeltext">Description: </label> {{ issue.description }}</p>
+    <p><label class="labeltext">AssignedUser: </label>: {{ issue.name }}</p>
+    <!-- </div> -->
+</v-container>
+<form>
+    <label for="agent">Send To:</label>
+    <select v-model="name" placeholder="Assign">
+        <option>Assign To</option>
+        <option v-for="agents in agent" :key="agents.support_user_id" :value="[agents.support_user_id]">{{ agents.name }}</option>
+    </select>
     <br>
     <br>
-    <button class="btn btn-outline-dark" type="submit" v-on:click.prevent= "back()">
-            Back
-          </button>
+    <v-btn type="submit" v-on:click.prevent="sendTask()">Send Task</v-btn>
+</form>
+<br>
+<br>
+<v-btn class="btn btn-outline-dark" type="submit" v-on:click.prevent="back()">
+    Back
+</v-btn>
 </template>
-  <script>
-  import userData from '../User.json'
-    export default{
-        name:'AssignTask',
 
-      data() {
-        return {
-          agents: [
-            { id: 1, name: 'L1' },
-            { id: 2, name: 'L2' },
-            { id: 3, name: 'L3' }
-          ],
-          selectedUser: null,
-          sentTasks: [],
-          requestId:  window.localStorage.getItem('Requestid'),
-          users:userData,
-        };
-      },
-      methods: {
-        back(){
-        this.$router.push('/AdminPageDashboard')
+<script>
+import axios from 'axios';
+import TitleSection from './TitleSection.vue';
+
+export default {
+    name: 'AssignTask',
+    components: {
+        TitleSection
     },
-        sendTask() {
-            if (this.selectedUser) {
-            console.log(`sent to ${this.selectedUser}`);
-            this.selectedUser = null;
-          } else {
-            alert('Please fill out both task and user fields.');
-          }
-        },
-        
-        
-      }
-    }
+    data() {
+        return {
+            
+            sentTasks: [],
+            requestId: window.localStorage.getItem('Requestid'),
+            issue: {},
+            agent: [],
+        //    name: {},
+         
+        };
 
-  </script>
+    },
+    methods: {
+        back() {
+            // console.log(this.requestId)
+            this.$router.push('/AdminPageDashboard')
+        },
+        sendTask() {
+
+             let assign = {
+                requestId: this.issue.request_id,
+                assignedTo: this.name[0]
+            }
+            console.log(assign);
+            axios.put('https://demoetenders.tn.nic.in/supportdora/update-request', assign, {
+
+                    headers: {
+                        "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+                        "Content-Type": `application/x-www-form-urlencoded`
+                    },
+
+                })
+                .then(response => {
+                    //  response.data
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.log('Error fetching data:', error);
+                });
+
+        },
+
+    },
+
+    created() {
+        axios.get('https://demoetenders.tn.nic.in/supportdora/requestdetails-with-attachments', {
+                params: {
+                    "requestId": this.requestId
+                },
+                headers: {
+                    "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+                    "Content-Type": 'application/json'
+                }
+            })
+            .then(response => {
+                console.log(response.data);
+                console.log(response.data[0]);
+                console.log(response.data[0].requestdetails);
+                this.issue = response.data[0].requestdetails[0];
+            })
+            .catch(error => {
+                console.log('Error fetching data:', error);
+            });
+        axios.get('https://demoetenders.tn.nic.in/supportdora/support-users', {
+                headers: {
+                    "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+                    "Content-Type": 'application/json'
+                },
+            })
+            .then(response => {
+                this.agent = response.data
+                // console.log(response.data);
+            })
+            .catch(error => {
+                console.log('Error fetching data:', error);
+            });
+    }
+}
+</script>
+
+<style scoped>
+.labeltext {
+    font-weight: bold;
+}
+</style>

@@ -8,11 +8,14 @@ import UpdateUser from './components/UpdateUser.vue'
 import AssignTask from './components/AssignTask.vue';
 import AgentPage from './components/AgentPage.vue';
 import ViewIssue from './components/ViewIssue.vue';
-import ManageAgent from './components/ManageAgent.vue'
+import ManageAgent from './components/ManageAgent.vue';
+import  RequestFile from './components/RequestFile.vue';
+import EsclateIssue from './components/EsclateIssue.vue';
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+
 
 const vuetify = createVuetify({
     components,
@@ -48,6 +51,11 @@ const router = createRouter({
             name:AssignTask, 
             component: AssignTask
             },
+            {
+              path: '/Issue',
+            name:EsclateIssue, 
+            component: EsclateIssue
+            },
 
             {
               path: '/Agent',
@@ -65,6 +73,12 @@ const router = createRouter({
               path: '/AgentList',
             name:ManageAgent, 
             component: ManageAgent
+            },
+
+            {
+              path: '/Request',
+            name:RequestFile, 
+            component: RequestFile
             }
           ]
   });

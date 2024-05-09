@@ -1,50 +1,85 @@
 <template>
-    <v-table>
-<thead>
-        <th>id</th>
-        <th>Issue</th>
-        <th>Description</th>
+<!-- <TitleSection /> -->
+
+<v-table class="table">
+    <thead>
+        <th>Requestid</th>
+        <th>Category</th>
+        <th>SubCategory</th>
         <th>Portal Name</th>
-      
-</thead>
-<tbody v-for="user in users" v-bind:key="user">
-    <tr>
-        <td >{{ user.id }}</td>
-        <td >{{ user.Issue }}</td>
-        <td >{{ user.Description }}</td>
-        <td >{{ user.Portal }}</td>
-        <td ><v-btn class="btn btn-outline-dark"  v-on:click.prevent= "open(user.id)" > Open </v-btn></td>
-        <!-- <button class="btn btn-outline-dark" type="open" v-on:click.prevent= "open(user.id)"> open </button>  -->
-    </tr>
-    
-</tbody>
+
+    </thead>
+    <tbody v-for="issues in asignissue" v-bind:key="issues" style=" text-wrap:calc(10)">
+        <tr>
+            <td>{{ issues.request_id }}</td>
+            <td>{{ issues.category }}</td>
+            <td>{{ issues.subcategory }}</td>
+            <td>{{ issues.portal }}</td>
+            <td>
+                <v-btn class="btn btn-outline-dark" v-on:click.prevent="View(issues.request_id)"> View </v-btn>
+            </td>
+        </tr>
+
+    </tbody>
 </v-table>
-<button class="btn btn-outline-dark" type="back" v-on:click.prevent= "logout()"> Logout </button> 
 </template>
 
 <script>
+import axios from 'axios';
+// import TitleSection from './TitleSection.vue';
 
-import userData from '../User.json'
 export default {
-  name:'AgentPage',
-  data(){
-        return { 
-            users:userData,
-            issueid: null 
+    name: 'AgentPage',
+    // components: {
+    //     TitleSection
+    // },
+    data() {
+        return {
+            requestid: null,
+            asignissue: []
         }
-    } ,
-  methods:{
-    logout(){
-        this.$router.push('/AdminPageDashboard');
-      
     },
-    
-    open(id){
-      this.issueid = id
-      console.log(this.issueid)
-      window.localStorage.setItem('Issueid',this.issueid)
-      this.$router.push('/ViewIssue');
+    methods: {
+        logout() {
+            this.$router.push('/AdminPageDashboard');
+
+        },
+        View(request_id) {
+            this.requestid = request_id
+            console.log(this.requestid)
+            window.localStorage.setItem('Requestid', this.requestid)
+            this.$router.push('/Issue');
+        },
+        open(id) {
+            this.issueid = id
+            console.log(this.issueid)
+            window.localStorage.setItem('Issueid', this.issueid)
+            this.$router.push('/ViewIssue');
+        },
+
+        assignedIssue() {
+            axios.get('https://demoetenders.tn.nic.in/supportdora/portal-requestlists', {
+                    params: {
+                        "support_user_id": 2,
+                        "portalId": 1,
+                        "rowNo": 0
+                    },
+                    headers: {
+                        "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+                        "Content-Type": 'application/json'
+                    }
+                })
+                .then(response => {
+                    this.asignissue = response.data
+
+                })
+                .catch(error => {
+                    console.log('Error fetching data:', error);
+                });
+        }
     },
-  }
+    created() {
+        this.assignedIssue()
+    },
 }
 </script>

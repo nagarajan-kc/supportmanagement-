@@ -1,6 +1,6 @@
 <template>
     <div id="heading">
-      user
+      
       <v-btn size="small" variant="outlined" v-on:click="home()">Home</v-btn>
       <v-btn size="small" variant="outlined" v-on:click="logout()">Logout</v-btn>
     </div>
@@ -23,5 +23,9 @@
   #heading{
     text-align: end;
     padding-right: 20px;
+  }
+
+  .v-btn{
+    margin: 0 5px;
   }
   </style>

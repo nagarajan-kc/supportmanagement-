@@ -1,36 +1,26 @@
 <template>
-<TitleSection />
-
 <h2>Agent Creation:</h2>
 <v-container>
     <v-row v-align="center" justify="center">
         <form name="usercreate" enctype="multipart/form-data">
-            <div class="data">
-                <label>Name: </label>
-                <input type="text" v-model="formData.name" />
-            </div>
-            <div class="data">
-                <label>Email Id: </label>
-                <input type="text" v-model="formData.email" />
-            </div>
-            <div class="data">
-                <label>Mobile No: </label>
-                <input type="Number" v-model="formData.mobileNo" />
-            </div>
-            <div class="data">
-                <label>Portal Name: </label>
-                <!-- <input type="text" id="Portal" v-model="input.Portal" /> -->
-                <select v-model="formData.portal">
+            <select v-model="formData.portalId">
                     <option v-for="portals in portallist" v-bind:key="portals" :value="portals.id ">{{ portals.name}}</option>
                 </select>
-            </div>
-            <div class="data">
-                <label>Role: </label>
-                <!-- <input type="text" id="Role" v-model="input.Role" /> -->
-                <select v-model="formData.role">
-                    <option v-for="roles in rolelist" v-bind:key="roles" :value="roles.id ">{{ roles.name}}</option>
+                <select v-model="formData.categoryId" @change="sub">
+                    <option v-for="catg in categorylist" v-bind:key="catg" :value="catg.id ">{{ catg.name}}</option>
                 </select>
-            </div>
+                <select v-model="formData.subCategoryId">
+                    <option v-for="subcatg in subCategorylist" v-bind:key="subcatg" :value="subcatg.id ">{{ subcatg.name}}</option>
+                </select>
+            <label>
+                Subject:
+            </label>
+            <input type="text" v-model="formData.subject" />
+
+            <label>
+                Description:
+            </label>
+            <input type="text" v-model="formData.description" />
 
             <div class="data">
                 <label for="file">Upload File:</label>
@@ -55,25 +45,25 @@
 
 <script>
 import axios from 'axios'
-import TitleSection from './TitleSection.vue';
+
 export default {
-    name: 'UserCreation',
-    components: {
-        TitleSection
-    },
+    name: 'RequestFile',
+
     data() {
         return {
             usercreate: [],
             formData: {
-                name: '',
-                mobileNo: '',
-                email: '',
-                file: "",
-                portal: "",
-                role: ""
+                portalId: "",
+                categoryId: '',
+                subCategoryId: '',
+                subject: "",
+                description: "",
+                endUserId: 1
             },
             portallist: [],
             rolelist: [],
+            categorylist: [],
+            subCategorylist: [],
             saveData: {}
         }
     },
@@ -85,14 +75,14 @@ export default {
         submit() {
 
             this.saveData = {
-                name: this.formData.name,
-                email: this.formData.email,
-                mobileNo: this.formData.mobileNo,
-                portalId: this.formData.portal,
-                roleId: this.formData.role,
-                files: this.formData.file,
+                portalId: this.formData.portalId,
+                categoryId: this.formData.categoryId,
+                subCategoryId: this.formData.subCategoryId,
+                subject: this.formData.subject,
+                description: this.formData.description,
+                endUserId: this.formData.endUserId
             }
-            axios.post('http://10.163.17.52:8082/supportdora/create-supportuser', this.saveData, {
+            axios.post('http://10.163.17.52:8082/supportdora/create-request', this.saveData, {
 
                     headers: {
                         "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
@@ -110,6 +100,22 @@ export default {
         },
         back() {
             this.$router.push('/AdminPageDashboard')
+        },
+
+       async sub(){
+           await  axios.get("http://10.163.17.52:8082/supportdora/sub-categories", {
+                headers: {
+                    "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+                },
+                params:{
+                    categoryId:this.formData.categoryId
+                }
+            })
+            .then(response => {
+                this.subCategorylist = response.data
+            }).catch(error => {
+                console.log("error fetching role", error)
+            });
         }
 
     },
@@ -125,16 +131,19 @@ export default {
             }).catch(error => {
                 console.log("error fetching Portal", error)
             });
-        await axios.get("http://10.163.17.52:8082/supportdora/roles", {
+
+        await axios.get("http://10.163.17.52:8082/supportdora/categories", {
                 headers: {
                     "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
                 }
             })
             .then(response => {
-                this.rolelist = response.data
+                this.categorylist = response.data
             }).catch(error => {
                 console.log("error fetching role", error)
             });
+
+        
     }
 
 }

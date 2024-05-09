@@ -1,21 +1,19 @@
 <template>
   
-  <HelloWorld msg="Support Management System"/>
-  <TitleSection/>
+  <HeaderSection/>
+  
   <div>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
-import TitleSection from './components/TitleSection.vue';
+import HeaderSection from './components/HeaderSection.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
-    TitleSection
+    HeaderSection
   }
 }
 </script>
@@ -27,7 +25,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 20px; */
 }
 
 input,select{
