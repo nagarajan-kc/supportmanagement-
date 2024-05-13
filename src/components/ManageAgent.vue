@@ -1,13 +1,14 @@
 <template>
 <TitleSection />
-<v-table>
-    <thead>
+<v-table class="manageuser">
+    <thead class="tableheading">
         <th>Id</th>
         <th>Name</th>
         <th>Email</th>
         <th>MobileNumber</th>
         <th>Portal</th>
         <th>Role</th>
+        <th>Action</th>
     </thead>
     <tbody v-for="(agents,index) in agent" v-bind:key="index">
         <tr>
@@ -18,7 +19,7 @@
             <td>{{ agents.portal_name }}</td>
             <td>{{ agents.role_name }}</td>
             <td>
-                <v-btn class="btn btn-outline-dark" v-on:click.prevent="UpdateUser()"> Update </v-btn>
+                <v-btn variant="outlined" size="small" v-on:click.prevent="UpdateUser(agents.support_user_id)"> Update </v-btn>
             </td>
         </tr>
 
@@ -26,7 +27,7 @@
 
 </v-table>
 <v-col>
-    <v-btn class="btn btn-outline-dark" v-on:click.prevent="backPage()"> Back </v-btn>
+    <v-btn class="btn btn-outline-dark" v-on:click.prevent="backPage()" color="blue"> Back </v-btn>
 </v-col>
 <!-- <button class="btn btn-outline-dark" type="back" v-on:click.= "back()">Back</button>  -->
 </template>
@@ -42,6 +43,7 @@ export default {
     },
     data() {
         return {
+            requestid: null,
             agent: [],
         }
     },
@@ -57,7 +59,7 @@ export default {
                 })
                 .then(response => {
                     this.agent = response.data
-                    console.log(response.data);
+                    // console.log(response.data);
                 })
                 .catch(error => {
                     console.log('Error fetching data:', error);
@@ -66,7 +68,10 @@ export default {
         backPage() {
             this.$router.push('/AdminPageDashboard')
         },
-        UpdateUser() {
+        UpdateUser(support_user_id) {
+            this.requestid = support_user_id
+            console.log(this.requestid)
+            window.localStorage.setItem('Requestid', this.requestid)
             this.$router.push('/UpdateAgent');
         },
     },
@@ -80,3 +85,21 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.manageuser{
+    width: 98%;
+    margin: 10px 20px; 
+    border: 1px solid black;
+}
+.tableheading{
+    background-color: bisque;
+}
+th,td{
+    border-right: 1px solid black;
+}
+
+th{   
+    border-bottom: 1px solid black;
+}
+</style>

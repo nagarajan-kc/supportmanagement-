@@ -1,22 +1,25 @@
 <template>
-<!-- <TitleSection /> -->
+<UserTitle />
 
-<v-table class="table">
-    <thead>
+<v-table class="manageissue">
+    <thead class="tableheading">
         <th>Requestid</th>
+        <th>Subject</th>
         <th>Category</th>
         <th>SubCategory</th>
         <th>Portal Name</th>
+        <th>View Issue</th>
 
     </thead>
     <tbody v-for="issues in asignissue" v-bind:key="issues" style=" text-wrap:calc(10)">
         <tr>
             <td>{{ issues.request_id }}</td>
+            <td>{{ issues.subject }}</td>
             <td>{{ issues.category }}</td>
             <td>{{ issues.subcategory }}</td>
             <td>{{ issues.portal }}</td>
             <td>
-                <v-btn class="btn btn-outline-dark" v-on:click.prevent="View(issues.request_id)"> View </v-btn>
+                <v-btn variant="outlined" size="small" v-on:click.prevent="View(issues.request_id)" class="bg-blue-darken-3"> View </v-btn>
             </td>
         </tr>
 
@@ -26,13 +29,13 @@
 
 <script>
 import axios from 'axios';
-// import TitleSection from './TitleSection.vue';
+import UserTitle from './UserTitle.vue';
 
 export default {
     name: 'AgentPage',
-    // components: {
-    //     TitleSection
-    // },
+    components: {
+        UserTitle
+    },
     data() {
         return {
             requestid: null,
@@ -83,3 +86,21 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.manageissue{
+    width: 98%;
+    margin: 10px 20px; 
+    border: 1px solid black;
+}
+.tableheading{
+    background-color: bisque;
+}
+th,td{
+    border-right: 1px solid black;
+}
+
+th{   
+    border-bottom: 1px solid black;
+}
+</style>

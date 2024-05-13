@@ -1,60 +1,42 @@
 <template>
 <TitleSection />
-<div class="backcolor">
-    <div>
-        <h3 class="admin">Welcome Admin</h3>
-        <!-- <form @submit.prevent>
-            <v-row align="center" justify="center">
-                <v-col cols="auto">
-                    <label>Search:</label>
-                </v-col>
-                <v-col cols="auto">
-                    <input type="text" class="outline" v-model="searchvalue" required />
-                </v-col>
-                <v-col cols="auto">
-                    <label>Search By:</label>
-                </v-col>
-                <v-col cols="4">
-                    <v-radio-group inline class="radiobtn" v-model="searchparameter">
-                        <v-radio label="Request Id" value="requestId"></v-radio>
-                        <v-radio label="Tender Id" value="tenderId"></v-radio>
-                        <v-radio label="Eproc Reference Number" value="eprocRefNo"></v-radio>
-                    </v-radio-group>
-                </v-col>
-                <v-col cols="auto">
-                    <v-btn size="small" type="submit" variant="outlined" prepend-inner-icon="mdi-magnify" v-on:click="search()">Search</v-btn>
-                </v-col>
-            </v-row>
-        </form> -->
+        
         <div class="over">
 
             <div class="menu">
                 <ul>
                     <li>
-                        <v-btn class="btn btn-outline-dark" v-on:click.prevent="UserCreate()"> Create </v-btn>
+                        <v-btn class="btn btn-outline-dark listbtn" v-on:click.prevent="UserCreate()"> Create SupportUsers </v-btn>
                     </li>
                     
                     <!-- <li> <v-btn class="btn btn-outline-dark" v-on:click.prevent="Agent()"> SupportUser </v-btn></li> -->
                     <li>
-                        <v-btn class="btn btn-outline-dark" v-on:click.prevent="supportusers()"> ManageSupportUsers </v-btn>
+                        <v-btn class="btn btn-outline-dark listbtn" v-on:click.prevent="supportusers()"> Manage SupportUsers </v-btn>
                     </li>
                 </ul>
             </div>
             <div>
-                <v-table class="table">
-                    <thead>
+                <h3 class="admin">Welcome Admin</h3>
+                <v-table class="requesttable">
+                    <thead class="tableheading">
                         <th>Requestid</th>
+                        <th>Created Date</th>
                         <th>Category</th>
-                        <th>SubCategory</th>
+                        <!-- <th>SubCategory</th> -->
+                        <th>Subject</th>
                         <th>Portal Name</th>
-
+                        <th>Status</th>
+                        <th>View</th>
                     </thead>
                     <tbody v-for="issues in issue" v-bind:key="issues" style=" text-wrap:calc(10)">
                         <tr>
                             <td>{{ issues.request_id }}</td>
+                            <td>{{ issues.createddate }}</td>
                             <td>{{ issues.category }}</td>
-                            <td>{{ issues.subcategory }}</td>
+                            <!-- <td>{{ issues.subcategory }}</td> -->
+                            <td>{{ issues.subject }}</td>
                             <td>{{ issues.portal }}</td>
+                            <td>{{ issues.status }}</td>
                             <td>
                                 <v-btn class="btn btn-outline-dark" v-on:click.prevent="View(issues.request_id)"> View </v-btn>
                             </td>
@@ -64,9 +46,6 @@
                 </v-table>
             </div>
         </div>
-    </div>
-
-</div>
 </template>
 
 <script>
@@ -162,7 +141,7 @@ export default {
                 })
                 .then(response => {
                     this.issue = response.data
-                    // console.log(response.data);
+                     console.log(response.data);
                 })
                 .catch(error => {
                     console.log('Error fetching data:', error);
@@ -202,5 +181,25 @@ li {
 
 .over {
     display: inline-flex;
+    width: 100%;
+}
+.requesttable{
+    width: 1300px;
+    margin: 0px 20px; 
+    border: 1px solid black;
+}
+.tableheading{
+    background-color: bisque;
+}
+.listbtn{
+    width: 171px;
+}
+
+th,td{
+    border-right: 1px solid black;
+}
+
+th{   
+    border-bottom: 1px solid black;
 }
 </style>

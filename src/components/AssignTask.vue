@@ -1,28 +1,43 @@
 <template>
 <TitleSection />
 <h1>Task Manager - Admin Dashboard</h1>
-<v-container>
+<div class="issuelist">
 
     <!-- <div v-for="issues in issue" v-bind:key="issues" style=" text-wrap:calc(10)"> -->
     <!-- <tr> -->
-    <p><label class="labeltext">Requestid:</label>{{ issue.request_id }}</p>
-    <p><label class="labeltext">Issue: </label> {{ issue.subject }}</p>
-    <p><label class="labeltext">Description: </label> {{ issue.description }}</p>
-    <p><label class="labeltext">AssignedUser: </label>: {{ issue.name }}</p>
+    <v-row>
+        <label class="labeltext">Requestid:</label>
+        <label class="labeldesc">{{ issue.request_id }}</label>
+    </v-row>
+    <v-row>
+        <label class="labeltext">Issue: </label>
+        <label class="labeldesc">{{ issue.subject }}</label>
+    </v-row>
+    <v-row>
+        <label class="labeltext">Description: </label>
+        <label class="labeldesc">{{ issue.description }}</label>
+    </v-row>
+    <v-row>
+        <label class="labeltext">AssignedUser: </label>
+        <label class="labeldesc">{{ issue.name }}</label>
+    </v-row>
     <!-- </div> -->
-</v-container>
-<form>
-    <label for="agent">Send To:</label>
-    <select v-model="name" placeholder="Assign">
-        <option>Assign To</option>
-        <option v-for="agents in agent" :key="agents.support_user_id" :value="[agents.support_user_id]">{{ agents.name }}</option>
-    </select>
-    <br>
-    <br>
-    <v-btn type="submit" v-on:click.prevent="sendTask()">Send Task</v-btn>
+</div>
+<form >
+    <v-row align="center">
+        <v-col>
+            <label for="agent">Send To:</label>
+            <select v-model="name">
+                <option disabled value="">Assign To </option>
+                <option v-for="agents in agent" :key="agents.support_user_id" :value="[agents.support_user_id,agents.name]">{{ agents.name }}</option>
+            </select>
+            <v-btn type="submit" variant="outlined" size="small" v-on:click.prevent="sendTask()">Assign</v-btn>
+        </v-col>
+
+    </v-row>
+
 </form>
-<br>
-<br>
+
 <v-btn class="btn btn-outline-dark" type="submit" v-on:click.prevent="back()">
     Back
 </v-btn>
@@ -39,13 +54,13 @@ export default {
     },
     data() {
         return {
-            
+
             sentTasks: [],
             requestId: window.localStorage.getItem('Requestid'),
             issue: {},
             agent: [],
-        //    name: {},
-         
+            //    name: {},
+
         };
 
     },
@@ -56,7 +71,7 @@ export default {
         },
         sendTask() {
 
-             let assign = {
+            let assign = {
                 requestId: this.issue.request_id,
                 assignedTo: this.name[0]
             }
@@ -70,13 +85,13 @@ export default {
 
                 })
                 .then(response => {
-                    //  response.data
+                    //   response.data
                     console.log(response.data);
                 })
                 .catch(error => {
                     console.log('Error fetching data:', error);
                 });
-
+                this.$router.push('/AdminPageDashboard')
         },
 
     },
@@ -120,5 +135,31 @@ export default {
 <style scoped>
 .labeltext {
     font-weight: bold;
+    width: 200px;
+    text-align: left;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+select {
+    -webkit-appearance: menulist !important;
+    -moze-appearance: menulist !important;
+    appearance: menulist !important;
+}
+
+.labeldesc {
+    width: 600px;
+    text-align: left;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.issuelist {
+    display: inline-grid;
+    justify-content: center;
+    padding: 20px;
+}
+form{
+    width: 100%;
 }
 </style>

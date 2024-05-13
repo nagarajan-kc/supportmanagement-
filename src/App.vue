@@ -2,18 +2,21 @@
   
   <HeaderSection/>
   
-  <div>
+  <div class="content">
     <router-view></router-view>
   </div>
+  <FooterSection/>
 </template>
 
 <script>
 import HeaderSection from './components/HeaderSection.vue';
+import FooterSection from './components/FooterSection.vue';
 
 export default {
   name: 'App',
   components: {
-    HeaderSection
+    HeaderSection,
+    FooterSection
   }
 }
 </script>
@@ -34,6 +37,10 @@ input,select{
 
 .v-btn{
   text-transform: none !important;
+}
+
+.content{
+  min-height: 650px;
 }
 
 </style>
