@@ -19,7 +19,7 @@
             <td>{{ agents.portal_name }}</td>
             <td>{{ agents.role_name }}</td>
             <td>
-                <v-btn variant="outlined" size="small" v-on:click.prevent="UpdateUser(agents.support_user_id)"> Update </v-btn>
+                <v-btn variant="outlined" size="small" class="bg-light-blue-darken-4" v-on:click.prevent="UpdateUser(agents.support_user_id)"> Update </v-btn>
             </td>
         </tr>
 

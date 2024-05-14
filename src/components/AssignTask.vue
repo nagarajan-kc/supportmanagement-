@@ -19,7 +19,7 @@
     </v-row>
     <v-row>
         <label class="labeltext">AssignedUser: </label>
-        <label class="labeldesc">{{ issue.name }}</label>
+        <label class="labeldesc">{{ issue.name }}</label> 
     </v-row>
     <!-- </div> -->
 </div>
@@ -31,7 +31,7 @@
                 <option disabled value="">Assign To </option>
                 <option v-for="agents in agent" :key="agents.support_user_id" :value="[agents.support_user_id,agents.name]">{{ agents.name }}</option>
             </select>
-            <v-btn type="submit" variant="outlined" size="small" v-on:click.prevent="sendTask()">Assign</v-btn>
+            <v-btn type="submit" variant="outlined" size="small" v-on:click.prevent="sendTask()" class="bg-light-blue-darken-4">Assign</v-btn>
         </v-col>
 
     </v-row>
@@ -140,18 +140,16 @@ export default {
     border: 1px solid black;
     padding: 5px;
 }
-
-select {
-    -webkit-appearance: menulist !important;
-    -moze-appearance: menulist !important;
-    appearance: menulist !important;
-}
-
 .labeldesc {
     width: 600px;
     text-align: left;
     border: 1px solid black;
     padding: 5px;
+}
+select {
+    -webkit-appearance: menulist !important;
+    -moze-appearance: menulist !important;
+    appearance: menulist !important;
 }
 
 .issuelist {

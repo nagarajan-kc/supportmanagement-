@@ -18,6 +18,10 @@ import * as directives from 'vuetify/directives'
 
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import '@mdi/font/css/materialdesignicons.css'
+import RequestCreation from './components/RequestCreation.vue';
+import RequestList from './components/RequestList.vue';
+import ViewRequest from './components/ViewRequest.vue';
+import UserHome from './components/UserHome';
 
 const icons = {
     defaultSet: 'mdi',
@@ -90,6 +94,26 @@ const router = createRouter({
               path: '/Request',
             name:RequestFile, 
             component: RequestFile
+            },
+            {
+              path: '/Userhome',
+            name:UserHome, 
+            component: UserHome
+            },
+            {
+              path: '/CreateRequest',
+            name:RequestCreation, 
+            component: RequestCreation
+            },
+            {
+              path: '/Listrequest',
+            name:RequestList, 
+            component: RequestList
+            },
+            {
+              path: '/Listrequest/Viewrequest',
+            name:ViewRequest, 
+            component: ViewRequest
             }
           ]
   });

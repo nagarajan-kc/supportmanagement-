@@ -38,7 +38,7 @@
                             <td>{{ issues.portal }}</td>
                             <td>{{ issues.status }}</td>
                             <td>
-                                <v-btn class="btn btn-outline-dark" v-on:click.prevent="View(issues.request_id)"> View </v-btn>
+                                <v-btn variant="outlined" size="small" class="bg-light-blue-darken-4"  v-on:click.prevent="View(issues.request_id)"> View </v-btn>
                             </td>
                         </tr>
 

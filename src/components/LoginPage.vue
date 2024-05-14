@@ -41,6 +41,9 @@ export default{
       else if(this.input.username === 'nagarajaneproc@gmail.com' && this.input.password === 'Naga123@'){
         this.$router.push('/Agent');
       }
+      else if(this.input.username === 'user' && this.input.password === 'user@'){
+        this.$router.push('/Userhome');
+      }
       else{
         alert('Invalid username or password');
       }
