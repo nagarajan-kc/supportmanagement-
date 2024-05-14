@@ -2,7 +2,7 @@
   
   <HeaderSection/>
   
-  <div class="content">
+  <div id="app" class="content">
     <router-view></router-view>
   </div>
   <FooterSection/>
