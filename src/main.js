@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { createRouter, createWebHashHistory} from 'vue-router';
 import LoginPage from './components/LoginPage.vue';
+import UserPasswordChange from './components/PaswordChange.vue';
 import AdminPage from './components/AdminPage.vue';
 import UserCreation from './components/UserCreation.vue';
 import UpdateUser from './components/UpdateUser.vue'
@@ -43,8 +44,14 @@ const router = createRouter({
         { 
           path: '/', 
           name:LoginPage,
-          component: LoginPage },
-             
+          component: LoginPage 
+        },
+        {
+          path:'/ChangePassword',
+          name:UserPasswordChange, 
+          component:UserPasswordChange
+        },
+
         { 
           path: '/AdminPageDashboard',
           name:AdminPage, 
@@ -114,7 +121,8 @@ const router = createRouter({
               path: '/Listrequest/Viewrequest',
             name:ViewRequest, 
             component: ViewRequest
-            }
+            },
+
           ]
   });
   

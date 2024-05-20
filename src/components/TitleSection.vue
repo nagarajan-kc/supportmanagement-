@@ -11,10 +11,21 @@
     name: 'TitleSection',
     methods:{
       logout(){
-        this.$router.push('/')
+        this.$router.push('/');
+        localStorage.removeItem("User");
+        localStorage.clear();
       },
       home(){
-        this.$router.push('/AdminPageDashboard')
+        let user = localStorage.getItem("User");
+        if(user == 'User'){
+          this.$router.push('/Userhome')
+        }
+        else if(user == 'Agent'){
+          this.$router.push('/Agent')
+        }
+        else {
+          this.$router.push('/AdminPageDashboard')
+        }
       }
     }
   }

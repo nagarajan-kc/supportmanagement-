@@ -23,7 +23,7 @@
                 <!-- <input type="text" id="Portal" v-model="input.Portal" /> -->
                 <select v-model="formData.portal" class="inputtext">
                     <option disabled value="">select the role</option>
-                    <option v-for="portals in portallist" v-bind:key="portals" :value="portals.id ">{{ portals.name}}</option>
+                    <option v-for="portals in portallist" v-bind:key="portals" :value="portals.id ">{{ portals.description}}</option>
                 </select>
             </v-row >
             <v-row  class="data">

@@ -46,6 +46,7 @@
           <v-row class="data">
             <label>Attachments</label>
             <input id="attach" type="file" class="outline" multiple @change="checkFile">
+            <!-- <input multiple type="file" id="files" ref="files" @change="selectMultiFile"> -->
           </v-row>
         </form>
       </v-row>
@@ -108,22 +109,39 @@
         dialog: false,
         reply: false,
         saveData: {},
-        responsetext: ""
+        responsetext: "",
+        uploadFiles: ''
       }
     },
   
     methods: {
       checkFile(event) {
         this.formData.file = event.target.files[0]; // single file
+        
         // let files = event.target.files;
+        // // this.formData.file = [...this.formData.file,...files]
+        
         // for(let i=0; i < files.length; i++) {
-        //   this.formData.file[i]= files[i];
+          
+        //   // this.formData.file[i]= files[i];
+        //   this.formData.append('files[' + i + ']', files);
         // }
         console.log(this.formData.file)
         // console.log(this.formData.file[0])
       },
+      selectMultiFile(){
+        const files1 = this.$refs.files.files;
+        this.uploadFiles = [...this.uploadFiles, ...files1]
+      },
       submit() {
         if (this.formData.categoryId != '' && this.formData.subCategoryId != '' && this.formData.subject != '' && this.formData.description != '') {
+
+          // const formData1 = new FormData();
+          // this.uploadFiles.forEach(element => {
+          //     console.log(element)
+          //       formData1.append('files', element)
+          // });
+
           this.saveData = {
             portalId: this.formData.portalId,
             categoryId: this.formData.categoryId,
@@ -133,11 +151,11 @@
             tenderId: this.formData.tenderId,
             eprocRefNo: this.formData.refNumber,
             endUserId: this.formData.endUserId,
-            files: this.formData.file
+            files: this.formData.file //formData1
           }
           console.log(this.saveData)
-          //axios.post('http://10.163.17.52:8082/supportdora/create-request', this.saveData, {
-          axios.post('https://demoetenders.tn.nic.in/supportdora/create-request', this.saveData, {
+          axios.post('http://10.163.14.67:8082/supportdora/create-request', this.saveData, {
+          //  axios.post('https://demoetenders.tn.nic.in/supportdora/create-request', this.saveData, {
                    headers: {
                        "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
                        "Content-Type": `multipart/form-data`

@@ -1,18 +1,25 @@
 <template>
-    <h1 class="bg-light-blue-lighten-1">Support Management System</h1>
+<div class="bg-light-blue-lighten-1 headertitle">
+    <img :src="require('@/assets/GepnicLogo.png')"/>
+    <h1>Support Management System</h1>
+</div>
 </template>
 
 <script>
 export default {
-  name: 'HeaderSection',
+    name: 'HeaderSection',
 }
 </script>
 
-
 <style scoped>
+.headertitle{
+    display:flex;
+}
+
 h1 {
-  padding: 10px 0;
-  margin-bottom: 8px;
+    text-align: center;
+    padding: 10px 420px;
+    margin-bottom: 8px;
 }
 
 </style>

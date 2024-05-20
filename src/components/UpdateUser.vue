@@ -90,7 +90,7 @@ export default {
                 mobileNo: this.UserList.mobileNo,
                 isactive: this.UserList.isactive,
                 roleId: this.role,
-                portal_name: this.UserList.portal_name
+                portal_name: this.UserList.portal_description
             }
             console.log(assign);
             axios.put('https://demoetenders.tn.nic.in/supportdora/update-supportuser', assign, {

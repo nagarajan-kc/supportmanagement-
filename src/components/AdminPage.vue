@@ -1,6 +1,5 @@
 <template>
 <TitleSection />
-        
         <div class="over">
 
             <div class="menu">
@@ -8,8 +7,6 @@
                     <li>
                         <v-btn class="btn btn-outline-dark listbtn" v-on:click.prevent="UserCreate()"> Create SupportUsers </v-btn>
                     </li>
-                    
-                    <!-- <li> <v-btn class="btn btn-outline-dark" v-on:click.prevent="Agent()"> SupportUser </v-btn></li> -->
                     <li>
                         <v-btn class="btn btn-outline-dark listbtn" v-on:click.prevent="supportusers()"> Manage SupportUsers </v-btn>
                     </li>
@@ -44,6 +41,14 @@
 
                     </tbody>
                 </v-table>
+                <div class="text-center">
+    <v-pagination
+      v-model="page"
+      :length="4"
+      next-icon="mdi-menu-right"
+      prev-icon="mdi-menu-left"
+    ></v-pagination>
+  </div>
             </div>
         </div>
 </template>
@@ -67,7 +72,8 @@ export default {
             searchparameter: "",
             requestids: "",
             tenderId: "",
-            eprocRefNo: ""
+            eprocRefNo: "",
+            page: 1,
         }
     },
     methods: {
