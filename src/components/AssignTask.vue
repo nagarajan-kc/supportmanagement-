@@ -21,6 +21,11 @@
         <label class="labeltext">AssignedUser: </label>
         <label class="labeldesc">{{ issue.name }}</label> 
     </v-row>
+    <v-row v-if="this.issueattachement[0]">
+        <label class="labeltext"> Attchement:</label>
+        <a  class="labeldesc" v-on:click="documentdwn(this.issueattachement[0])">{{ this.issueattachement[0].file_name +"."+ this.issueattachement[0].file_type.split('/')[1]}}</a>
+        
+    </v-row>
     <!-- </div> -->
 </div>
 <form >
@@ -46,6 +51,7 @@
 <script>
 import axios from 'axios';
 import TitleSection from './TitleSection.vue';
+import saveAs from 'file-saver'
 
 export default {
     name: 'AssignTask',
@@ -59,6 +65,7 @@ export default {
             requestId: window.localStorage.getItem('Requestid'),
             issue: {},
             agent: [],
+            issueattachement: []
             //    name: {},
 
         };
@@ -94,6 +101,30 @@ export default {
                 this.$router.push('/AdminPageDashboard')
         },
 
+        documentdwn(downdoc){
+            axios.get('https://demoetenders.tn.nic.in/supportdora/doc-download', {
+                
+                params: {
+                    id: downdoc.request_attachment_id,
+                    docType: 'request'
+                },
+                responseType: 'blob',
+                headers: {
+                    "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+                },
+                
+            })
+            .then(response => {
+                console.log(response.data);
+                console.log(this.issueattachement[0].file_name);
+                //  saveAs(new Blob([response.data], { type: this.issueattachement[0].file_type }), this.issueattachement[0].file_name, { autoBOM: false });
+                saveAs(new Blob([response.data],{type: this.issueattachement[0].file_type}), this.issueattachement[0].file_name,{autoBOM: false});
+            })
+            .catch(error => {
+                console.log('Error fetching data:', error);
+            });
+        }
+
     },
 
     created() {
@@ -111,6 +142,7 @@ export default {
                 console.log(response.data[0]);
                 console.log(response.data[0].requestdetails);
                 this.issue = response.data[0].requestdetails[0];
+                this.issueattachement = response.data[1].requestattachments;
             })
             .catch(error => {
                 console.log('Error fetching data:', error);
@@ -160,4 +192,12 @@ select {
 form{
     width: 100%;
 }
+
+a{
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+}
+
+
 </style>

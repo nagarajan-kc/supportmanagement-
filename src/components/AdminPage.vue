@@ -42,12 +42,7 @@
                     </tbody>
                 </v-table>
                 <div class="text-center">
-    <v-pagination
-      v-model="page"
-      :length="4"
-      next-icon="mdi-menu-right"
-      prev-icon="mdi-menu-left"
-    ></v-pagination>
+    <v-pagination  v-model="page"  :length="4" next-icon="mdi-menu-right" prev-icon="mdi-menu-left"  ></v-pagination>
   </div>
             </div>
         </div>
@@ -74,9 +69,11 @@ export default {
             tenderId: "",
             eprocRefNo: "",
             page: 1,
+            pagecount:10
         }
     },
     methods: {
+
         logout() {
             this.$router.push('/');
 
@@ -91,6 +88,14 @@ export default {
             console.log(this.requestid)
             window.localStorage.setItem('Requestid', this.requestid)
             this.$router.push('/AssignTask');
+        },
+
+        pageincre(){
+            this.pagecount += this.pagecount
+        },
+
+        pagedecr(){
+            this.pagecount -= this.pagecount
         },
         search() {
             if (this.searchvalue == '' || (this.searchvalue != '' && this.searchparameter == '')) {

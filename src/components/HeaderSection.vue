@@ -1,8 +1,12 @@
 <template>
-<div class="bg-light-blue-lighten-1 headertitle">
-    <img :src="require('@/assets/GepnicLogo.png')"/>
-    <h1>Support Management System</h1>
-</div>
+<v-row class="bg-light-blue-lighten-1 headertitle">
+    <v-col align="left" cols="1">
+        <img :src="require('@/assets/GepnicLogo.png')" />
+    </v-col>
+    <v-col align="center" justify="center">
+        <h1>Support Management System</h1>
+    </v-col>
+</v-row>
 </template>
 
 <script>
@@ -12,14 +16,15 @@ export default {
 </script>
 
 <style scoped>
-.headertitle{
-    display:flex;
+.headertitle {
+
+margin-bottom: 10px;
+padding-top: 10px;
 }
 
-h1 {
-    text-align: center;
-    padding: 10px 420px;
-    margin-bottom: 8px;
+img {
+    height: 40px;
+    margin-left: 25px;
+    margin-top: 10px;
 }
-
 </style>

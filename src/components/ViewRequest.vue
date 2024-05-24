@@ -3,10 +3,12 @@
 <v-row align="center" justify="center">
     <h3>Request Details</h3>
 </v-row>
-<v-btn size="small" variant="outlined" icon="mdi-arrow-left" v-on:click="previouspage()"></v-btn>
 <v-container v-for="item in listdetails" :key="item">
-    <v-row class="reqdetails" align="center" justify="center">      
-        
+    <v-row class="reqdetails" align="center" justify="center">
+        <v-col cols="1">
+            <v-btn size="small" variant="outlined" icon="mdi-arrow-left" v-on:click="previouspage()"></v-btn>
+        </v-col>
+        <v-col cols="9" align="center" justify="center">
             <v-row>
                 <label class="heading"> RequestId </label>
                 <label class="labeldesc">{{ item.request_id }}</label>
@@ -19,8 +21,7 @@
                 <label class="heading"> Description </label>
                 <label class="labeldesc">{{ item.description }}</label>
             </v-row>
-        
-
+        </v-col>
     </v-row>
     <v-row v-if="item.id == reqid" align="center" justify="center">
         <v-col cols="auto" class="heading">
@@ -207,20 +208,18 @@ export default {
 <style scoped>
 .reqdetails {
     margin: 5px;
-    display: inline-grid;
-    width: 1000px;
 }
 
 .heading {
     font-weight: bold;
-    width: 100px;
+    width: 15%;
     text-align: left;
     border: solid 1px rgb(167, 167, 167);
     padding: 5px;
 }
 
 .labeldesc {
-    width: 300px;
+    width: 85%;
     text-align: left;
     border: solid 1px rgb(167, 167, 167);
     padding: 5px;
