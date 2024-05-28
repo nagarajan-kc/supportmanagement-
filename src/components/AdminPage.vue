@@ -42,7 +42,8 @@
                     </tbody>
                 </v-table>
                 <div class="text-center">
-    <v-pagination  v-model="page"  :length="4" next-icon="mdi-menu-right" prev-icon="mdi-menu-left"  ></v-pagination>
+    <v-pagination  v-model="page"  :length="4" next-icon="mdi-menu-right" prev-icon="mdi-menu-left" @prev="pagedecr()" @next="pageincre()" >
+    </v-pagination>
   </div>
             </div>
         </div>
@@ -69,7 +70,8 @@ export default {
             tenderId: "",
             eprocRefNo: "",
             page: 1,
-            pagecount:10
+            pagecount:10,
+            rownumber:0
         }
     },
     methods: {
@@ -91,11 +93,13 @@ export default {
         },
 
         pageincre(){
-            this.pagecount += this.pagecount
+            this.rownumber = this.rownumber+10
+            this.issuelist(this.rownumber)
         },
 
         pagedecr(){
-            this.pagecount -= this.pagecount
+            this.rownumber = this.rownumber-10
+            this.issuelist(this.rownumber)
         },
         search() {
             if (this.searchvalue == '' || (this.searchvalue != '' && this.searchparameter == '')) {
@@ -141,9 +145,10 @@ export default {
 
         issuelist() {
             // console.log('issuelist');
+            // this.rownumber = this.rownumber+10
             axios.get('https://demoetenders.tn.nic.in/supportdora/admin-requestlists', {
                     params: {
-                        "rowNo": 0
+                        "rowNo": this.rownumber
                     },
                     headers: {
                         "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,

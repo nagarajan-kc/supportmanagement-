@@ -8,52 +8,48 @@
             <v-row class="data">
                 <label>Name: </label>
                 <input type="text" class="inputtext" v-model="formData.name" />
-            </v-row >
-            <v-row  class="data">
+            </v-row>
+            <v-row class="data">
                 <label>Email Id: </label>
                 <input type="text" class="inputtext" v-model="formData.email" />
-            </v-row >
-            <v-row  class="data">
+            </v-row>
+            <v-row class="data">
                 <label>Mobile No: </label>
-                <input type="Number"  class="inputtext" v-model="formData.mobileNo" />
-                
-            </v-row >
-            <v-row  class="data">
+                <input type="Number" class="inputtext" v-model="formData.mobileNo" />
+
+            </v-row>
+            <v-row class="data">
                 <label>Portal Name: </label>
-                <!-- <input type="text" id="Portal" v-model="input.Portal" /> -->
                 <select v-model="formData.portal" class="inputtext">
                     <option disabled value="">select the role</option>
                     <option v-for="portals in portallist" v-bind:key="portals" :value="portals.id ">{{ portals.description}}</option>
                 </select>
-            </v-row >
-            <v-row  class="data">
+            </v-row>
+            <v-row class="data">
                 <label>Role: </label>
-                <!-- <input type="text" id="Role" v-model="input.Role" /> -->
                 <select v-model="formData.role" class="inputtext">
                     <option disabled value="">select the role</option>
                     <option v-for="roles in rolelist" v-bind:key="roles" :value="roles.id ">{{ roles.name}}</option>
                 </select>
-            </v-row >
+            </v-row>
 
-            <v-row  class="data">
+            <v-row class="data">
                 <label for="file">Upload File:</label>
                 <input type="file" id="file" class="inputtext" ref="file" @change="handleFileChange" required>
-            </v-row >
+            </v-row>
             <!-- </v-row> -->
-
-            
 
         </form>
     </v-row>
     <v-row v-align="center" justify="center">
-                <v-col cols="auto">
-                    <v-btn variant="outlined" class="bg-light-blue-darken-4" v-on:click="back()"> Back </v-btn>
-                </v-col>
-                <v-col cols="auto">
-                    <v-btn variant="outlined" class="bg-light-blue-darken-4" v-on:click="submit()"> Save </v-btn>
-                </v-col>
+        <v-col cols="auto">
+            <v-btn variant="outlined" class="bg-light-blue-darken-4" v-on:click="back()"> Back </v-btn>
+        </v-col>
+        <v-col cols="auto">
+            <v-btn variant="outlined" class="bg-light-blue-darken-4" v-on:click="submit()"> Save </v-btn>
+        </v-col>
 
-            </v-row>
+    </v-row>
 </v-container>
 </template>
 
@@ -106,7 +102,7 @@ export default {
                 })
                 .then(response => {
                     this.usercreate = response.data
-                    // console.log(response.data);
+
                 })
                 .catch(error => {
                     console.log('Error fetching data:', error);
@@ -152,20 +148,21 @@ form {
 .data {
     margin: 5px;
     font-weight: bold;
-    /* width: 29rem; */
+   
 }
 
 select {
-  -webkit-appearance: menulist !important;
-  -moze-appearance: menulist !important;
-  appearance: menulist !important;
+    -webkit-appearance: menulist !important;
+    -moze-appearance: menulist !important;
+    appearance: menulist !important;
 }
 
-label{
-    width:100px;
+label {
+    width: 100px;
     color: #023e6c;
 }
-.inputtext{
+
+.inputtext {
     border-radius: 5px;
     font-weight: lighter;
     background-color: white;
@@ -173,24 +170,23 @@ label{
     padding: 5px;
 }
 
-.forminput{
+.forminput {
     padding: 40px 0px;
-  border: solid 1px rgb(167, 167, 167);
-  border-radius: 15px;
+    border: solid 1px rgb(167, 167, 167);
+    border-radius: 15px;
 }
 
-.v-container{
+.v-container {
     width: 500px;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
-
 </style>

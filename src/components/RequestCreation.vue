@@ -149,9 +149,11 @@ export default {
                 saveData.append('tenderId', this.formData.tenderId)
                 saveData.append('eprocRefNo', this.formData.refNumber)
                 saveData.append('endUserId', this.formData.endUserId)
-                for (let i = 0; i < this.formData.file.length; i++) {
+                if(this.formData.file){
+                    for (let i = 0; i < this.formData.file.length; i++) {
                     saveData.append('files', this.formData.file[i])
                 }
+                } 
                 for (const pair of saveData.entries()) {
                     console.log(pair);
                 }
