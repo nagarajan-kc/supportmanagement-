@@ -23,7 +23,7 @@ import RequestCreation from './components/RequestCreation.vue';
 import RequestList from './components/RequestList.vue';
 import ViewRequest from './components/ViewRequest.vue';
 import UserHome from './components/UserHome';
-
+// import VueCookies from 'vue3-cookies';
 const icons = {
     defaultSet: 'mdi',
     aliases,
@@ -128,5 +128,5 @@ const router = createRouter({
   
   
 
-
+  // .use(VueCookies)
 createApp(App).use(router).use(vuetify).mount('#app')

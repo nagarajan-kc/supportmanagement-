@@ -11,11 +11,11 @@
             </v-row>
             <v-row align="center" justify="center">
                 <label for="oldpassword" class="head">Old Password: </label>
-                <input type="text" id="username" class="inputtext" v-model="oldpass" />
+                <input type="text" id="oldpass" class="inputtext" v-model="oldpass" />
             </v-row>
             <v-row align="center" justify="center">
                 <label for="newpassword" class="head">New Password:</label>
-                <input type="text" id="username" class="inputtext" v-model="newpass" />
+                <input type="text" id="newpass" class="inputtext" v-model="newpass" />
             </v-row>
             <v-row align="center" justify="center">
                 <v-col cols="auto">

@@ -1,56 +1,71 @@
 <template>
-<TitleSection />
-        <div class="over">
+    <TitleSection />
+    <v-row align="center" justify="center">
+        <v-btn size="small" variant="outlined" icon="mdi-arrow-left" v-on:click="previouspage()"></v-btn>
+      <v-col cols="auto">
+        <label class="require">Filter:</label>
+          <select v-model="statusid" class="outline" @change="issuelist()">
+            <option disabled value="">Please select Status</option>
+            <option v-for="status in statuslist" v-bind:key="status" :value="status.id">{{ status.name }}
+            </option>
+          </select>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn size="small" type="submit" variant="outlined" v-on:click="clear()">Clear</v-btn>
+      </v-col>
+    </v-row>
+  <v-divider :thickness="2"></v-divider>
+    <div class="over">
+        <div class="menu">
+            <ul>
+                <li>
+                    <v-btn class="btn btn-outline-dark listbtn" v-on:click.prevent="UserCreate()"> Create SupportUsers
+                    </v-btn>
+                </li>
+                <li>
+                    <v-btn class="btn btn-outline-dark listbtn" v-on:click.prevent="supportusers()"> Manage SupportUsers
+                    </v-btn>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <h3 class="admin">Welcome Admin</h3>
+            <v-table class="requesttable">
+                <thead class="tableheading">
+                    <th>Requestid</th>
+                    <th>Created Date</th>
+                    <th>Category</th>
+                    <th>Subject</th>
+                    <th>Portal Name</th>
+                    <th>Status</th>
+                    <th>View</th>
+                </thead>
+                <tbody v-for="issues in issue" v-bind:key="issues" style=" text-wrap:calc(10)">
+                    <tr>
+                        <td>{{ issues.request_id }}</td>
+                        <td>{{ issues.createddate }}</td>
+                        <td>{{ issues.category }}</td>
+                        <td class="issuedesc">{{ issues.subject }}</td>
+                        <td>{{ issues.portal }}</td>
+                        <td>{{ issues.status }}</td>
+                        <td>
+                            <v-btn variant="outlined" size="small" class="bg-light-blue-darken-4"
+                                v-on:click.prevent="View(issues.request_id)"> View </v-btn>
+                        </td>
+                    </tr>
 
-            <div class="menu">
-                <ul>
-                    <li>
-                        <v-btn class="btn btn-outline-dark listbtn" v-on:click.prevent="UserCreate()"> Create SupportUsers </v-btn>
-                    </li>
-                    <li>
-                        <v-btn class="btn btn-outline-dark listbtn" v-on:click.prevent="supportusers()"> Manage SupportUsers </v-btn>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="admin">Welcome Admin</h3>
-                <v-table class="requesttable">
-                    <thead class="tableheading">
-                        <th>Requestid</th>
-                        <th>Created Date</th>
-                        <th>Category</th>
-                        <!-- <th>SubCategory</th> -->
-                        <th>Subject</th>
-                        <th>Portal Name</th>
-                        <th>Status</th>
-                        <th>View</th>
-                    </thead>
-                    <tbody v-for="issues in issue" v-bind:key="issues" style=" text-wrap:calc(10)">
-                        <tr>
-                            <td>{{ issues.request_id }}</td>
-                            <td>{{ issues.createddate }}</td>
-                            <td>{{ issues.category }}</td>
-                            <!-- <td>{{ issues.subcategory }}</td> -->
-                            <td>{{ issues.subject }}</td>
-                            <td>{{ issues.portal }}</td>
-                            <td>{{ issues.status }}</td>
-                            <td>
-                                <v-btn variant="outlined" size="small" class="bg-light-blue-darken-4"  v-on:click.prevent="View(issues.request_id)"> View </v-btn>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </v-table>
-                <div class="text-center">
-    <v-pagination  v-model="page"  :length="4" next-icon="mdi-menu-right" prev-icon="mdi-menu-left" @prev="pagedecr()" @next="pageincre()" >
-    </v-pagination>
-  </div>
+                </tbody>
+            </v-table>
+            <div class="text-center">
+                <v-pagination v-model="page" :length="4" next-icon="mdi-menu-right" prev-icon="mdi-menu-left"
+                    @prev="pagedecr()" @next="pageincre()">
+                </v-pagination>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
-// import userData from '../User.json'
 import axios from 'axios';
 import TitleSection from './TitleSection.vue';
 
@@ -64,14 +79,11 @@ export default {
             // users:userData,
             requestid: null,
             issue: [],
-            searchvalue: "",
-            searchparameter: "",
-            requestids: "",
-            tenderId: "",
-            eprocRefNo: "",
             page: 1,
-            pagecount:10,
-            rownumber:0
+            pagecount: 10,
+            rownumber: 0,
+            statuslist: [],
+            statusid: null
         }
     },
     methods: {
@@ -84,7 +96,7 @@ export default {
             this.$router.push('/CreateSupportAgent');
 
         },
-        
+
         View(request_id) {
             this.requestid = request_id
             console.log(this.requestid)
@@ -92,48 +104,14 @@ export default {
             this.$router.push('/AssignTask');
         },
 
-        pageincre(){
-            this.rownumber = this.rownumber+10
+        pageincre() {
+            this.rownumber = this.rownumber + 10
             this.issuelist(this.rownumber)
         },
 
-        pagedecr(){
-            this.rownumber = this.rownumber-10
+        pagedecr() {
+            this.rownumber = this.rownumber - 10
             this.issuelist(this.rownumber)
-        },
-        search() {
-            if (this.searchvalue == '' || (this.searchvalue != '' && this.searchparameter == '')) {
-                alert("select search by")
-                console.log("ahhh")
-            } else {
-                if (this.searchparameter == 'requestId') {
-                    this.requestids = this.searchvalue
-                } else if (this.searchparameter == 'tenderId') {
-                    this.tenderid = this.searchvalue
-                } else {
-                    this.refnumber = this.searchvalue
-                }
-                axios.get("https://demoetenders.tn.nic.in/supportdora/admin-requestlists", {
-                    headers: {
-                        "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
-                    },
-                    params: {
-                        rowNo: 0,
-                        requestId: this.requestid,
-                        ...this.tenderid ?? {
-                            tenderId: this.tenderid
-                        },
-                        ...this.refnumber ?? {
-                            tenderId: this.refnumber
-                        }
-                    }
-                }).then(response => {
-                    this.rlist = response.data
-                    this.reqlist = this.rlist
-                }).catch(error => {
-                    console.log("error fetching", error)
-                });
-            }
         },
         // Agent() {
         //     this.$router.push('/Agent')
@@ -144,28 +122,46 @@ export default {
         },
 
         issuelist() {
-            // console.log('issuelist');
-            // this.rownumber = this.rownumber+10
             axios.get('https://demoetenders.tn.nic.in/supportdora/admin-requestlists', {
-                    params: {
-                        "rowNo": this.rownumber
-                    },
-                    headers: {
-                        "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
-                        "Content-Type": 'application/json'
-                    }
-                })
+                params: {
+                    "rowNo": this.rownumber,
+                    ...(this.statusid ? { statusId: this.statusid } : {}),
+                },
+                headers: {
+                    "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+                    "Content-Type": 'application/json'
+                }
+            })
                 .then(response => {
                     this.issue = response.data
-                     console.log(response.data);
+                    console.log(response.data);
                 })
                 .catch(error => {
                     console.log('Error fetching data:', error);
                 });
         },
+        getstatus(){
+            axios.get('https://demoetenders.tn.nic.in/supportdora/status', {                
+                headers: {
+                    "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+                }
+            })
+                .then(response => {
+                    this.statuslist = response.data
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.log('Error fetching data:', error);
+                });
+        },
+        clear(){
+            this.statusid = null
+            this.issuelist()
+        }
     },
     created() {
-        this.issuelist()
+        this.issuelist(),
+        this.getstatus()
     },
 }
 </script>
@@ -175,8 +171,11 @@ h3 {
     margin: 5px;
 }
 
-.search {
-    background-color: rgb(212, 201, 201);
+.outline {
+    border: solid 1px rgb(167, 167, 167);
+    border-radius: 5px;
+    padding: 0px 5px;
+    font-weight: lighter;
 }
 
 .menu {
@@ -199,23 +198,32 @@ li {
     display: inline-flex;
     width: 100%;
 }
-.requesttable{
+
+.requesttable {
     width: 1300px;
-    margin: 0px 20px; 
+    margin: 0px 20px;
     border: 1px solid black;
 }
-.tableheading{
+
+.tableheading {
     background-color: bisque;
 }
-.listbtn{
+
+.listbtn {
     width: 171px;
 }
 
-th,td{
+th,
+td {
     border-right: 1px solid black;
 }
 
-th{   
+th {
     border-bottom: 1px solid black;
+}
+
+.issuedesc{
+  text-align: left;
+  justify-self: center;
 }
 </style>

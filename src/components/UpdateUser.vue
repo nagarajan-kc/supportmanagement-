@@ -5,36 +5,38 @@
     <v-row v-align="center" justify="center" class="bg-green-lighten-5 forminput">
         <form name="UpdateUser">
             <v-row class="data">
-                <label for="SupportID">SupportID: {{ UserList.support_user_id }}</label>
-                <!-- <input  id="SupportID" v-model="UserList.support_user_id" /> -->
+                <label for="SupportID" >SupportID:</label>
+                <!-- <label class="inputtext">{{ UserList.support_user_id }} </label>readonly="readonly" -->
+                <input  id="SupportID" v-model="UserList.support_user_id" readonly="readonly" />
             </v-row>
             <v-row class="data">
                 <label for=" Name">Name: </label>
-                <input type="text" id="First Name" v-model="UserList.name" />
+                <input type="text" id="First Name" class="inputtext" v-model="UserList.name" />
             </v-row>
 
             <v-row class="data">
                 <label for="MobileNo">Mobile No: </label>
-                <input type="Number" id="MobileNo" v-model="UserList.mobileNo" />
+                <input type="Number" id="MobileNo" class="inputtext" v-model="UserList.mobileNo" />
             </v-row>
 
             <v-row class="data">
                 <label for="EmailId">Email Id: </label>
-                <input type="text" id="EmailId" v-model="UserList.email" />
+                <input type="text" id="EmailId" class="inputtext" v-model="UserList.email" />
             </v-row>
 
             <v-row class="data">
                 <label>Role:</label>
                 <!-- <select v-model="this.roleId"> -->
                 <!-- <option type="text">-Select-</option> -->
-                <select v-model="this.role">
+                <select v-model="this.role" class="inputtext">
+                    <option disabled value="">Please select Role</option>
                     <option v-for="roles in rolelist" v-bind:key="roles" :value="roles.id ">{{ roles.name}}</option>
                 </select>
                 <!-- </select> -->
             </v-row>
             <v-row class="data">
                 <label for="Portal">Portal Name: </label>
-                <input type="text" id="Portal" v-model="UserList.portal_name" />
+                <input type="text" id="Portal" class="inputtext" v-model="UserList.portal_name" />
             </v-row>
             <v-row align="center" justify="center">
                 <label for="Status">Status:</label>

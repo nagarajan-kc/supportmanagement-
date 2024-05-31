@@ -59,7 +59,7 @@ export default {
                 })
                 .then(response => {
                     this.agent = response.data
-                    // console.log(response.data);
+                    console.log(response.data);
                 })
                 .catch(error => {
                     console.log('Error fetching data:', error);
