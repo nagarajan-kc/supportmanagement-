@@ -8,7 +8,7 @@ import UserCreation from './components/UserCreation.vue';
 import UpdateUser from './components/UpdateUser.vue'
 import AssignTask from './components/AssignTask.vue';
 import AgentPage from './components/AgentPage.vue';
-import ViewIssue from './components/ViewIssue.vue';
+// import ViewIssue from './components/ViewIssue.vue';
 import ManageAgent from './components/ManageAgent.vue';
 import  RequestFile from './components/RequestFile.vue';
 import EsclateIssue from './components/EsclateIssue.vue';
@@ -85,11 +85,11 @@ const router = createRouter({
             component: AgentPage
             },
           
-            {
-              path: '/ViewIssue',
-            name:ViewIssue, 
-            component: ViewIssue
-            },
+            // {
+            //   path: '/ViewIssue',
+            // name:ViewIssue, 
+            // component: ViewIssue
+            // },
 
             {
               path: '/AgentList',

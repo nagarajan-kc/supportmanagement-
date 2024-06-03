@@ -33,8 +33,8 @@
 </template>
 
 <script>
-// import axios from 'axios';
-// var sha512 = require('js-sha512');
+import axios from 'axios';
+var sha512 = require('js-sha512');
 // import { useCookies } from "vue3-cookies";
 
 export default {
@@ -55,73 +55,68 @@ export default {
     methods: {
         login() {
 
-            // console.log(this.username);
-            // // axios.post('https://demoetenders.tn.nic.in/supportdora/salt', this.username, {
-            // axios.post('http://10.163.14.67:8082/supportdora/salt', this.username, {
-            //         withCredentials: true,
+            console.log(this.username);
+            //  axios.post('https://demoetenders.tn.nic.in/supportdora/salt', this.username, {
+           axios.post('http://10.163.14.67:8082/supportdora/salt', this.username, {
+                    // withCredentials: true,
 
-            //         headers: {
-            //             "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
-            //             "Content-Type": `application/x-www-form-urlencoded`
-            //         },
-            //     })
+                    headers: {
+                        "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+                        "Content-Type": `application/x-www-form-urlencoded`
+                    },
+                })
 
-            //     .then(response => {
-            //         console.log(response.data[0].SALT);
+                .then(response => {
+                    console.log(response.headers["SALTID"])
+                    console.log(response.data[0].SALT);
+                    let saltValue = response.data[0].SALT;
+                    console.log(saltValue);
 
-            //         // let setCookieHeader = response.headers['Set-Cookie'];
-            //         // console.log(setCookieHeader)
-            //         //                 const cookieValue = this.$cookies.get('JSESSIONID');
-            //         //   console.log('Cookie value:', cookieValue);
-
-            //         let saltValue = response.data[0].SALT;
-            //         console.log(saltValue);
-
-            //         let passHash = saltValue + '##' + sha512(this.password);
-            //         console.log(passHash);
-            //         let passwordash = sha512(passHash);
-            //         console.log(passwordash);
-            //         let saveData = {
-            //             username: this.username,
-            //             encPassword: passwordash,
-            //         }
-            //         console.log(saveData);
+                    let passHash = saltValue + '##' + sha512(this.password);
+                    console.log(passHash);
+                    let passwordash = sha512(passHash);
+                    console.log(passwordash);
+                    let saveData = {
+                        username: this.username,
+                        encPassword: passwordash,
+                    }
+                    console.log(saveData);
                     
                     
-            //         // axios.post('https://demoetenders.tn.nic.in/supportdora/login', saveData, {
-            //         axios.post('http://10.163.14.67:8082/supportdora/login', saveData, {
-            //                 withCredentials: true,
-            //                 headers: {
-            //                     "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
-            //                     "Content-Type": `application/x-www-form-urlencoded`
-            //                 }
-            //             })
-            //             .then(response => {
+                    // axios.post('https://demoetenders.tn.nic.in/supportdora/login', saveData, {
+                   axios.post('http://10.163.14.67:8082/supportdora/login', saveData, {
+                            // withCredentials: true,
+                            headers: {
+                                "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+                                "Content-Type": `application/x-www-form-urlencoded`
+                            }
+                        })
+                        .then(response => {
+                            response.data
+                            console.log(response);
 
-            //                 console.log(response.data);
-            //             })
-            //             .catch(error => {
-            //                 console.log('Error fetching data:', error);
-            //             });
-            //         // console.log(response.headers.get('set-cookie'));
-            //         // console.log(response.data.Cookies);
-            //     })
-            //     .catch(error => {
-            //         console.log('Error fetching data:', error);
-            //     });
+                        })
+                        .catch(error => {
+                            console.log('Error fetching data:', error);
+                        });
+                    
+                })
+                .catch(error => {
+                    console.log('Error fetching data:', error);
+                });
 
-            if (this.input.username === 'admin@gmail.com' && this.input.password === 'Admin123@') {
-                this.$router.push('/AdminPageDashboard');
-                localStorage.setItem("Admin", "User");
-            } else if (this.input.username === 'nagarajaneproc@gmail.com' && this.input.password === 'Naga123@') {
-                this.$router.push('/Agent');
-                localStorage.setItem("Agent", "User");
-            } else if (this.input.username === 'user' && this.input.password === 'user@') {
-                this.$router.push('/Userhome');
-                localStorage.setItem("User", "User");
-            } else {
-                alert('Invalid username or password');
-            }
+            // if (this.input.username === 'admin@gmail.com' && this.input.password === 'Admin123@') {
+            //     this.$router.push('/AdminPageDashboard');
+            //     localStorage.setItem("Admin", "User");
+            // } else if (this.input.username === 'nagarajaneproc@gmail.com' && this.input.password === 'Naga123@') {
+            //     this.$router.push('/Agent');
+            //     localStorage.setItem("Agent", "User");
+            // } else if (this.input.username === 'user' && this.input.password === 'user@') {
+            //     this.$router.push('/Userhome');
+            //     localStorage.setItem("User", "User");
+            // } else {
+            //     alert('Invalid username or password');
+            // }
         }
     },
     // mounted(){

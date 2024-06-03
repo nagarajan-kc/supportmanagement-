@@ -25,7 +25,13 @@
         <v-btn size="small" variant="outlined" v-on:click="showinp()" class="bg-blue-darken-3">Reply</v-btn>
     </v-cols>
     <v-btn type="submit" variant="outlined" size="small" class="bg-blue-darken-3" v-on:click.prevent="sendTask()">Escalet</v-btn>
-
+    <v-row align="center" justify="center">
+        <label for="Status">Status:</label>
+        <v-radio-group inline class="radiobtn" >
+            <v-radio label="Unblock" value="true"></v-radio>
+            <v-radio label="Block" value="false"></v-radio>
+        </v-radio-group> 
+    </v-row>
     <v-container v-if="showdetails">
         <form enctype="multipart/form-data">
             <v-row align="center" justify="center">
@@ -109,14 +115,14 @@ export default {
     },
     methods: {
         back() {
-            // console.log(this.requestId)
+
             this.$router.push('/Agent')
         },
         showinp() {
             this.showdetails = true
         },
         hideinp() {
-            // console.log(this.reqid)
+
             const saveData = new FormData()
             saveData.append('portalId', 1)
             saveData.append('requestId', this.requestId)
@@ -163,13 +169,13 @@ export default {
 
                 })
                 .then(response => {
-                    //   response.data
-                    console.log(response.data);
+                    response.data
+                    // console.log(response.data);
                 })
                 .catch(error => {
                     console.log('Error fetching data:', error);
                 });
-            // this.$router.push('/Agent')
+            this.$router.push('/Agent')
         },
     },
 

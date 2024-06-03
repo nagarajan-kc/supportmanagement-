@@ -21,11 +21,27 @@
         <label class="labeltext">AssignedUser: </label>
         <label class="labeldesc">{{ issue.name }}</label> 
     </v-row>
-    <v-row v-if="this.issueattachement[0]">
+
+    <v-row v-if="issueattachement">
+                    <label class="labeltext">Attachments</label>
+                    <label  class="labeldesc">
+                        <ul v-for="item in issueattachement" :key="item">
+                        <li>
+                            <a v-on:click="documentdwn(item)">{{ item.file_name +"."+ item.file_type.split('/')[1]}}</a>
+                        </li>
+                    </ul>  
+                    </label>
+                                      
+                </v-row>
+
+    <!-- <v-row v-if="this.issueattachement">
         <label class="labeltext"> Attchement:</label>
-        <a  class="labeldesc" v-on:click="documentdwn(this.issueattachement[0])">{{ this.issueattachement[0].file_name +"."+ this.issueattachement[0].file_type.split('/')[1]}}</a>
+        <ul v-for="doc in issueattachement" :key="doc">
+            <li v-on:click="documentdwn(doc)">{{ doc.file_name +"."+ doc.file_type.split('/')[1]}}</li>
+        </ul> -->
+        <!-- <a  class="labeldesc" v-on:click="documentdwn(this.issueattachement[0])">{{ this.issueattachement[0].file_name +"."+ this.issueattachement[0].file_type.split('/')[1]}}</a> -->
         
-    </v-row>
+    <!-- </v-row> -->
     <!-- </div> -->
 </div>
 <form >
@@ -102,11 +118,12 @@ export default {
         },
 
         documentdwn(downdoc){
+            console.log(downdoc);
             axios.get('https://demoetenders.tn.nic.in/supportdora/doc-download', {
                 
                 params: {
                     id: downdoc.request_attachment_id,
-                    docType: 'request'
+                    docType: 'REQ'
                 },
                 responseType: 'blob',
                 headers: {
@@ -118,7 +135,7 @@ export default {
                 console.log(response.data);
                 console.log(this.issueattachement[0].file_name);
                 //  saveAs(new Blob([response.data], { type: this.issueattachement[0].file_type }), this.issueattachement[0].file_name, { autoBOM: false });
-                saveAs(new Blob([response.data],{type: this.issueattachement[0].file_type}), this.issueattachement[0].file_name,{autoBOM: false});
+                saveAs(new Blob([response.data],{type: downdoc.file_type}), downdoc.file_name,{autoBOM: false});
             })
             .catch(error => {
                 console.log('Error fetching data:', error);
@@ -193,11 +210,11 @@ form{
     width: 100%;
 }
 
-a{
+li {
+    list-style-type: none;
     text-decoration: underline;
     color: blue;
     cursor: pointer;
 }
-
 
 </style>

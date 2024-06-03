@@ -40,15 +40,41 @@
             <th>View Issue</th>
 
         </thead>
-        <tbody>
-            <tr v-for="issues in asignissue" v-bind:key="issues" style=" text-wrap:calc(10)">
-                <td>{{ issues.request_id }}</td>
-                <td>{{ issues.subject }}</td>
-                <td>{{ issues.category }}</td>
-                <td>{{ issues.subcategory }}</td>
-                <td>{{ issues.portal }}</td>
+        <tbody v-if="this.userlevel === 1">
+            <tr v-for="issue in L1list" v-bind:key="issue" style=" text-wrap:calc(10)">
+                <td>{{ issue.request_id }}</td>
+                <td>{{ issue.subject }}</td>
+                <td>{{ issue.category }}</td>
+                <td>{{ issue.subcategory }}</td>
+                <td>{{ issue.portal }}</td>
                 <td>
-                    <v-btn variant="outlined" size="small" v-on:click.prevent="View(issues.request_id)"
+                    <v-btn variant="outlined" size="small" v-on:click.prevent="View(issue.request_id)"
+                        class="bg-blue-darken-3"> View </v-btn>
+                </td>
+            </tr>
+        </tbody>
+        <tbody v-if="this.userlevel === 2">
+            <tr v-for="issue in L2list" v-bind:key="issue" style=" text-wrap:calc(10)">
+                <td>{{ issue.request_id }}</td>
+                <td>{{ issue.subject }}</td>
+                <td>{{ issue.category }}</td>
+                <td>{{ issue.subcategory }}</td>
+                <td>{{ issue.portal }}</td>
+                <td>
+                    <v-btn variant="outlined" size="small" v-on:click.prevent="View(issue.request_id)"
+                        class="bg-blue-darken-3"> View </v-btn>
+                </td>
+            </tr>
+        </tbody>
+        <tbody v-if="this.userlevel === 2">
+            <tr v-for="issue in L3list" v-bind:key="issue" style=" text-wrap:calc(10)">
+                <td>{{ issue.request_id }}</td>
+                <td>{{ issue.subject }}</td>
+                <td>{{ issue.category }}</td>
+                <td>{{ issue.subcategory }}</td>
+                <td>{{ issue.portal }}</td>
+                <td>
+                    <v-btn variant="outlined" size="small" v-on:click.prevent="View(issue.request_id)"
                         class="bg-blue-darken-3"> View </v-btn>
                 </td>
             </tr>
@@ -59,6 +85,10 @@
             </tr>
         </tbody>
     </v-table>
+    <div class="text-center">
+                <v-btn variant="plain" v-on:click="pagedecr()"><v-icon icon="mdi-menu-left"></v-icon >Previous</v-btn>
+                <v-btn variant="plain" v-on:click="pageincre()">Next<v-icon icon="mdi-menu-right"></v-icon></v-btn>
+            </div>
 </template>
 
 <script>
@@ -79,7 +109,12 @@ export default {
             requestids: "",
             tenderId: "",
             eprocRefNo: "",
-            nodata: false
+            nodata: false,
+            L1list:[],
+            L2list:[],
+            L3list:[],
+            userlevel: 1,
+            rownumber: 0,   
         }
     },
     methods: {
@@ -98,6 +133,18 @@ export default {
             window.localStorage.setItem('Issueid', this.issueid)
             this.$router.push('/ViewIssue');
         },
+        pageincre() {
+            if(this.asignissue.length === 10)
+            this.rownumber = this.rownumber + 10
+            this.assignedIssue(this.rownumber)
+        },
+
+        pagedecr() {
+            if(this.rownumber > 0){
+                this.rownumber = this.rownumber - 10
+            this.assignedIssue(this.rownumber)
+            }
+        },
 
         assignedIssue() {
             axios.get('https://demoetenders.tn.nic.in/supportdora/portal-requestlists', {
@@ -114,6 +161,22 @@ export default {
                 .then(response => {
                     this.asignissue = response.data
                     console.log(this.asignissue);
+                    let j=0, k=0, n=0
+                    for(let i=0;i<this.asignissue.length;i++){
+                        if(this.asignissue[i].role === "L1"){
+                            this.L1list[j] = this.asignissue[i];
+                            j=j+1;
+                        }else if(this.asignissue[i].role === "L2"){
+                            this.L2list[k] = this.asignissue[i];
+                            k=k+1;
+                        }else{
+                            this.L3list[n] = this.asignissue[i];
+                            n=n+1;
+                        }
+
+                    }
+                    console.log(this.L1list);
+                    console.log(this.L2list);
                 })
                 .catch(error => {
                     console.log('Error fetching data:', error);
@@ -122,7 +185,6 @@ export default {
         search() {
             if (this.searchvalue == '' || (this.searchvalue != '' && this.searchparameter == '')) {
                 alert("select search by")
-                console.log("ahhh")
             } else {
                 if (this.searchparameter == 'requestId') {
                     this.requestid = this.searchvalue
@@ -131,7 +193,6 @@ export default {
                 } else {
                     this.refnumber = this.searchvalue
                 }
-                this.nodata= false
                 axios.get("https://demoetenders.tn.nic.in/supportdora/portal-requestlists", {
                     headers: {
                         "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,

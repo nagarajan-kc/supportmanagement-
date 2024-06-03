@@ -53,7 +53,7 @@
                 </v-row>
         <v-row class="data">
           <label>Attachments</label>
-          <!-- <input id="attach" type="file" class="outline" multiple @change="checkFile()" accept="image/png,application/pdf,image/jpeg"> -->
+          
           <input id="attach" type="file" class="outline" multiple @change="checkFile">
         </v-row>
       </form>
@@ -166,13 +166,13 @@ export default {
                     })
                     .then(response => {
                         this.responsetext = response.data[0]
-                        console.log(response.data[0].Status);
+                        
                         alert(response.data[0].Status);
                         this.reply = true
                         this.$router.push('/userhome')
                     })
                     .catch(error => {
-                        console.log('Error fetching data:', error);
+                        alert('Error fetching data:', error);
                     });
             } else {
                 console.log('required')

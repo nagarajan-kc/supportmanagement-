@@ -44,11 +44,7 @@
                     <v-radio label="Unblock" value="true"></v-radio>
                     <v-radio label="Block" value="false"></v-radio>
                 </v-radio-group>
-                <!-- <label for="Status" >Status:</label>
-    <input type="radio" id="Unblock" name="Status" value="true" v-model="UserList.isactive" >
-    <label for="Unblock">Unblock</label>
-    <input type="radio" id="Block" name="Status" value="false" v-model="UserList.isactive">
-    <label for="Block">Block</label> -->
+                
             </v-row>
         </form>
     </v-row>
@@ -105,7 +101,7 @@ export default {
                 })
                 .then(response => {
                     response.data
-                    console.log(response.data);
+                    
                 })
                 .catch(error => {
                     console.log('Error fetching data:', error);
@@ -143,7 +139,7 @@ export default {
                     if (response.data[i].support_user_id == this.requestId) {
                         this.UserList = response.data[i]
                     }
-                    console.log(this.UserList.support_user_id);
+                    
                 }
             })
             .catch(error => {

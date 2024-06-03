@@ -43,11 +43,11 @@
                 <tbody v-for="issues in issue" v-bind:key="issues" style=" text-wrap:calc(10)">
                     <tr>
                         <td>{{ issues.request_id }}</td>
-                        <td>{{ issues.createddate }}</td>
+                        <td class="issuedate">{{ issues.createddate }}</td>
                         <td>{{ issues.category }}</td>
                         <td class="issuedesc">{{ issues.subject }}</td>
-                        <td>{{ issues.portal }}</td>
-                        <td>{{ issues.status }}</td>
+                        <td class="issueportal">{{ issues.portal }}</td>
+                        <td class="issueportal">{{ issues.status }}</td>
                         <td>
                             <v-btn variant="outlined" size="small" class="bg-light-blue-darken-4"
                                 v-on:click.prevent="View(issues.request_id)"> View </v-btn>
@@ -57,9 +57,8 @@
                 </tbody>
             </v-table>
             <div class="text-center">
-                <v-pagination v-model="page" :length="4" next-icon="mdi-menu-right" prev-icon="mdi-menu-left"
-                    @prev="pagedecr()" @next="pageincre()">
-                </v-pagination>
+                <v-btn variant="plain" v-on:click="pagedecr()"><v-icon icon="mdi-menu-left"></v-icon >Previous</v-btn>
+                <v-btn variant="plain" v-on:click="pageincre()">Next<v-icon icon="mdi-menu-right"></v-icon></v-btn>
             </div>
         </div>
     </div>
@@ -105,13 +104,16 @@ export default {
         },
 
         pageincre() {
+            if(this.issue.length === 10)
             this.rownumber = this.rownumber + 10
             this.issuelist(this.rownumber)
         },
 
         pagedecr() {
-            this.rownumber = this.rownumber - 10
+            if(this.rownumber > 0){
+                this.rownumber = this.rownumber - 10
             this.issuelist(this.rownumber)
+            }
         },
         // Agent() {
         //     this.$router.push('/Agent')
@@ -134,7 +136,6 @@ export default {
             })
                 .then(response => {
                     this.issue = response.data
-                    console.log(response.data);
                 })
                 .catch(error => {
                     console.log('Error fetching data:', error);
@@ -148,7 +149,6 @@ export default {
             })
                 .then(response => {
                     this.statuslist = response.data
-                    console.log(response.data);
                 })
                 .catch(error => {
                     console.log('Error fetching data:', error);
@@ -225,5 +225,13 @@ th {
 .issuedesc{
   text-align: left;
   justify-self: center;
+}
+
+.issuedate{
+    width: 182px;
+}
+
+.issueportal{
+    width: 90px;
 }
 </style>
