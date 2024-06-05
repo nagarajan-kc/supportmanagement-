@@ -5,9 +5,12 @@
     </v-row>
     <v-row align="center" justify="center">
         <form name="login-form" class="bg-green-lighten-5 forminput">
+            <v-row align="center" justify="center" v-if="this.error">
+                <label>Authentication Failed</label>
+            </v-row>
             <v-row align="center" justify="center">
                 <label for="username">Username: </label>
-                <input type="text" id="username" v-model="username" />
+                <input type="text" id="userId" @focusout="generateSalt" v-model="userId" />
             </v-row>
             <v-row align="center" justify="center">
                 <label for="password">Password: </label>
@@ -22,107 +25,93 @@
                 <v-col cols="auto">
                     <router-link to="/ChangePassword" class="genpass">Generate Password</router-link>
                 </v-col>
-
             </v-row>
-
         </form>
-
     </v-row>
-
 </v-container>
 </template>
 
 <script>
 import axios from 'axios';
 var sha512 = require('js-sha512');
-// import { useCookies } from "vue3-cookies";
 
 export default {
 
     name: 'LoginPage',
     data() {
         return {
-
-            username: "",
-            password: ""
-
+            password: "",
+            userId: "",
+            salt: "",
+            saltToken: "",
+            saltparam: {},
+            logindata: {},
+            status: "",
+            role: 0,
+            error: false
         }
     },
-    //     setup() {
-    //     const { cookies } = useCookies();
-    //     return { cookies };
-    //   },
     methods: {
         login() {
+            console.log(this.userId);
+            let passHash = this.salt + sha512(this.password);
+            console.log(passHash);
+            let passwordash = sha512(passHash);
+            console.log(passwordash);
+            let saveData = {
+                username: this.userId,
+                encPassword: passwordash,
+                saltToken: this.saltToken,
+                salt: this.salt
+            }
+            console.log(saveData);
 
-            console.log(this.username);
-            //  axios.post('https://demoetenders.tn.nic.in/supportdora/salt', this.username, {
-           axios.post('http://10.163.14.67:8082/supportdora/salt', this.username, {
-                    // withCredentials: true,
-
+            axios.post('https://demoetenders.tn.nic.in/supportdora/login', saveData, {
+                    headers: {
+                        "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+                        "Content-Type": `application/x-www-form-urlencoded`
+                    }
+                })
+                .then(response => {
+                    console.log(response.data);
+                    this.logindata = response.data
+                    this.status = this.logindata[0].Status;
+                    this.role = this.logindata[0].roles
+                    if (this.status === "Success" && this.role == 4) {
+                        this.$router.push('/AdminPageDashboard');
+                    }else if(this.status === "Success" && this.role == 2){
+                        this.$router.push('/Agent');
+                    }
+                    else{
+                        this.error = true,
+                        this.password = "",
+                        this.userId = ""
+                        this.$router.go(0)
+                    }
+                })
+                .catch(error => {
+                    console.log('Error fetching data:', error);
+                });
+        },
+        generateSalt() {
+            let saltparam = {
+                userId: this.userId,
+            }
+            axios.post('https://demoetenders.tn.nic.in/supportdora/salt', saltparam, {
                     headers: {
                         "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
                         "Content-Type": `application/x-www-form-urlencoded`
                     },
                 })
-
                 .then(response => {
-                    console.log(response.headers["SALTID"])
-                    console.log(response.data[0].SALT);
-                    let saltValue = response.data[0].SALT;
-                    console.log(saltValue);
-
-                    let passHash = saltValue + '##' + sha512(this.password);
-                    console.log(passHash);
-                    let passwordash = sha512(passHash);
-                    console.log(passwordash);
-                    let saveData = {
-                        username: this.username,
-                        encPassword: passwordash,
-                    }
-                    console.log(saveData);
-                    
-                    
-                    // axios.post('https://demoetenders.tn.nic.in/supportdora/login', saveData, {
-                   axios.post('http://10.163.14.67:8082/supportdora/login', saveData, {
-                            // withCredentials: true,
-                            headers: {
-                                "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
-                                "Content-Type": `application/x-www-form-urlencoded`
-                            }
-                        })
-                        .then(response => {
-                            response.data
-                            console.log(response);
-
-                        })
-                        .catch(error => {
-                            console.log('Error fetching data:', error);
-                        });
-                    
+                    this.salt = response.data[0].SALT,
+                    this.saltToken = response.data[0].TOKEN
                 })
                 .catch(error => {
                     console.log('Error fetching data:', error);
                 });
-
-            // if (this.input.username === 'admin@gmail.com' && this.input.password === 'Admin123@') {
-            //     this.$router.push('/AdminPageDashboard');
-            //     localStorage.setItem("Admin", "User");
-            // } else if (this.input.username === 'nagarajaneproc@gmail.com' && this.input.password === 'Naga123@') {
-            //     this.$router.push('/Agent');
-            //     localStorage.setItem("Agent", "User");
-            // } else if (this.input.username === 'user' && this.input.password === 'user@') {
-            //     this.$router.push('/Userhome');
-            //     localStorage.setItem("User", "User");
-            // } else {
-            //     alert('Invalid username or password');
-            // }
         }
     },
-    // mounted(){
-    //     let my_cookie_value = this.cookies.get("set-cookie");
-    //     // console.log(my_cookie_value);
-    // }
 }
 </script>
 

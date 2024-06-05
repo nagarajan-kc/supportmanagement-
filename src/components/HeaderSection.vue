@@ -1,7 +1,7 @@
 <template>
 <v-row class="bg-light-blue-lighten-1 headertitle">
     <v-col align="left" cols="1">
-        <img :src="require('@/assets/GepnicLogo.png')" />
+        <img :src="require('@/assets/GepNIClogo1.png')" />
     </v-col>
     <v-col align="center" justify="center">
         <h1>Support Management System</h1>

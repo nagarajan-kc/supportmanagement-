@@ -89,6 +89,7 @@
                 <v-btn variant="plain" v-on:click="pagedecr()"><v-icon icon="mdi-menu-left"></v-icon >Previous</v-btn>
                 <v-btn variant="plain" v-on:click="pageincre()">Next<v-icon icon="mdi-menu-right"></v-icon></v-btn>
             </div>
+    
 </template>
 
 <script>

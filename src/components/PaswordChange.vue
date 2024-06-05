@@ -7,7 +7,7 @@
         <form name="login-form" class="bg-green-lighten-5 forminput">
             <v-row align="center" justify="center">
                 <label for="username" class="head">Username: </label>
-                <input type="text" id="username" class="inputtext" v-model="username" />
+                <input type="text" id="userId" @focusout="generateSalt" class="inputtext" v-model="userId" />
             </v-row>
             <v-row align="center" justify="center">
                 <label for="oldpassword" class="head">Old Password: </label>
@@ -24,7 +24,7 @@
                     </v-btn>
                 </v-col>
                 <v-col cols="auto">
-                    <v-btn class="bg-light-blue-darken-4 loginbtn" type="submit" @click="changePassword()">
+                    <v-btn class="bg-light-blue-darken-4 loginbtn" type="submit" v-on:click="changePassword()">
                         Login
                     </v-btn>
                 </v-col>
@@ -45,65 +45,64 @@ export default {
             username: "",
             oldpass: "",
             newpass: "",
-            oldHash: " "
+            oldHash: " ",
+            newPassHash: "",
         }
-
     },
     methods: {
         back() {
             this.$router.push('/')
         },
-        changePassword() {
-            if (this.username && this.oldpass && this.newpass) {
-                console.log(this.username);
-                axios.post('https://demoetenders.tn.nic.in/supportdora/salt', this.username, {
-                        headers: {
-                            "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
-                            "Content-Type": `application/x-www-form-urlencoded`
-                        }
-                    })
-                    .then(response => {
-                        if (response.data[0].SALT) {
-                            let saltValue = response.data[0].SALT;
-                            if (saltValue) {
-                                let oldPassHash = saltValue + '##' + sha512(this.oldpass);
-                                let newPassHash = '***' + sha512(this.newpass);
-                                let oldHash = sha512(oldPassHash);
-                                console.log(saltValue);
-                                console.log(oldPassHash);
-                                console.log(oldPassHash.split('##')[0]);
-                                console.log(oldPassHash.split('##')[1]);
-                                console.log(newPassHash);
-                                console.log(oldHash);
-                                let password = {
-                                    username: this.username,
-                                    oldPassword: this.oldHash,
-                                    newPassword: this.newPassHash
-                                }
-                                console.log(password);
-                                axios.post('https://demoetenders.tn.nic.in/supportdora/login', password, {
-                                        headers: {
-                                            "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
-                                            "Content-Type": `application/x-www-form-urlencoded`
-                                        }
-                                    })
-                                    .then(response => {
-                                        //   response.data
-                                        console.log(response.data);
-                                    })
-                                    .catch(error => {
-                                        console.log('Error fetching data:', error);
-                                    });
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.log('Error fetching data:', error);
-                    });
-
+        generateSalt() {
+            let saltparam = {
+                userId: this.username,
             }
+            
+            axios.post('https://demoetenders.tn.nic.in/supportdora/salt', saltparam, {
+                    headers: {
+                        "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+                        "Content-Type": `application/x-www-form-urlencoded`
+                    },
+                })
+                .then(response => {
+                    this.salt = response.data[0].SALT,
+                        this.saltToken = response.data[0].TOKEN
+                })
+                .catch(error => {
+                    console.log('Error fetching data:', error);
+                });
         },
-    }
+        changePassword() {
+            if (this.userId && this.oldpass && this.newpass) {
+                let saltValue = this.salt;
+                if (saltValue) {
+                    let oldPassHash = saltValue + sha512(this.oldpass);
+                    this.newPassHash = sha512(this.newpass);
+                    this.oldHash = sha512(oldPassHash);
+                    let password = {
+                        username: this.userId,
+                        oldPassword: this.oldHash,
+                        newPassword: this.newPassHash,
+                        saltToken: this.saltToken,
+                        salt: this.salt
+                    }
+                    axios.post('https://demoetenders.tn.nic.in/supportdora/change-password', password, {
+                            headers: {
+                                "api_key": `46187f6f-f40c-4434-adad-ddb06db4659e`,
+                                "Content-Type": `application/x-www-form-urlencoded`
+                            }
+                        })
+                        .then(response => {
+                            console.log(response.data);
+                            alert("password changed successfully")
+                        })
+                        .catch(error => {
+                            console.log('Error fetching data:', error);
+                        });
+                }
+            }
+        }
+    },
 }
 </script>
 
@@ -137,13 +136,14 @@ input {
     text-align: left;
 }
 
-.loginbtn{
+.loginbtn {
     margin: 20px;
 }
 
-.v-container{
+.v-container {
     margin-top: 125px;
 }
+
 .heading {
     font-size: 30px;
     text-transform: uppercase;

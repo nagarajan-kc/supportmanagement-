@@ -144,7 +144,7 @@ export default {
     },
     methods: {
         previouspage() {
-            this.$router.push('/listreq')
+            this.$router.push('/Listrequest')
         },
         checkFile(event) {
             let files = event.target.files;
